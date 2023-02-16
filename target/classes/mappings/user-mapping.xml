@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userMapper">
+	
+	<select id="getMember" resultType="user">
+		SELECT * from ticket_user WHERE user_id=#{user_id}
+	</select>
+	
+	<select id="confirmID" resultType="String">
+		SELECT user_password FROM ticket_user WHERE user_id=#{user_id}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertUser">
+		INSERT INTO ticket_user(user_id, user_password, user_name, user_email,
+		 user_zip_num, user_address, user_phone, user_birth)
+		VALUES (#{user_id}, #{user_password}, #{user_name}, #{user_email},
+		 #{user_zip_num}, #{user_address}, #{user_phone}, #{user_birth})
+	</insert>
+	
+	<!-- 이름과 이메일로 아이디 찾기 -->
+	<select id="selectIdByNameEmail" resultType="String">
+		SELECT user_id FROM ticket_user WHERE user_name=#{user_name} AND user_email=#{user_email}
+	</select>
+	
+	<!-- 이름과 휴대전화 아이디 찾기 -->
+	<select id="selectIdByNamePhone" resultType="String">
+		SELECT user_id FROM ticket_user WHERE user_name=#{user_name} AND user_phone=#{user_phone}
+	</select>
+	
+	<!-- 아이디, 이름, 이메일로 비밀번호 찾기 -->
+	<select id="selectPwdByIdNameEmail" resultType="String">
+		SELECT user_password FROM ticket_user WHERE user_id=#{user_id} AND user_name=#{user_name} AND user_email=#{user_email}
+	</select>
+	
+	<!-- 아이디, 이름, 휴대전화로 비밀번호 찾기 -->
+	<select id="selectPwdByIdNamePhone" resultType="String">
+		SELECT user_password FROM ticket_user WHERE user_id=#{user_id} AND user_name=#{user_name} AND user_phone=#{user_phone}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="changePassword">
+		UPDATE ticket_user SET user_password=#{user_password} WHERE user_id=#{user_id}
+	</update>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateUser" parameterType="user">
+		UPDATE ticket_user SET user_zip_num=#{user_zip_num}, user_address=#{user_address}, user_phone=#{user_phone}, user_email=#{user_email}
+		WHERE user_id=#{user_id}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser" parameterType="user">
+		DELETE FROM ticket_user WHERE user_id=#{user_id} AND user_password=#{user_password}
+	</delete>
+</mapper>

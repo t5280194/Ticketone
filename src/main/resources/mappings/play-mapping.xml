@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="playMapper">
+
+	<!-- 예매순 추천공연 3개 -->
+	<select id="getBestSoldPlayList" resultType="play">
+		<![CDATA[
+		SELECT rn, reserve.play_pseq, reserve_count, play.play_name, play.play_poster, play.play_date
+		FROM (SELECT row_number() OVER(ORDER BY count(play_pseq) DESC) rn, play_pseq, count(play_pseq) reserve_count FROM ticket
+		GROUP BY play_pseq) reserve
+		INNER JOIN play ON reserve.play_pseq=play.play_pseq
+		WHERE rn <= 3
+		ORDER BY rn
+    	]]>
+	</select>
+	
+	<!-- 좋아요순 추천공연 5개 -->
+	<select id="getBestLikePlayList" resultType="play">
+		<![CDATA[
+		SELECT * FROM (SELECT * FROM play ORDER BY play_like_rate DESC) WHERE ROWNUM <= 5
+    	]]>
+	</select>
+	
+	<!-- 공연 카테고리별 조회 -->
+	<select id="getPlayListByKind" resultType="play">
+		SELECT * FROM play WHERE play_kind=#{play_kind} ORDER BY play_like_rate DESC
+	</select>
+
+	<!-- 공연 검색 -->
+	<select id="getPlayListBySearch" resultType="play">
+		<![CDATA[
+		SELECT * FROM play WHERE play_name LIKE '%'||#{play_name}||'%' ORDER BY play_regdate DESC
+		]]>
+	</select>
+	
+	
+	<!-- 공연 목록 전체 조회 -->
+	<select id="getPlayList" resultType="play">
+		SELECT * FROM play
+	</select>
+	
+	<!-- 공연 상세 조회 -->
+	<select id="getPlay" resultType="play">
+		SELECT * FROM play WHERE play_pseq=#{play_pseq}
+	</select>
+	
+	<!-- 공연 회차 정보 조회 -->
+	<select id="getPlayScheduleList" parameterType="String" resultType="schedule">
+		SELECT s.play_date FROM play p 
+			INNER JOIN schedule_1 s
+			ON p.play_pseq = s.play_pseq
+		WHERE p.play_name = #{play_name}
+	</select>
+	
+	<!-- 공연 좌석 조회 -->
+	<select id="getRemainedSeat" resultType="theater">
+		SELECT seat_vip, seat_s, seat_a FROM theater
+			WHERE schedule_seq = #{schedule_seq};
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+

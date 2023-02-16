@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnaMapper">
+
+	<!-- qna 목록 전체 조회 -->
+	<select id="listQna" resultType="qna">
+		SELECT * FROM qna ORDER BY qna_indate DESC
+	</select>
+	
+	<!-- qna 상세보기 -->
+	<select id="getQna" resultType="qna">
+		SELECT * FROM qna WHERE qseq=#{qseq} ORDER BY qna_indate
+	</select>
+	
+	<!-- qna 쓰기 -->
+	<select id="insertQna" resultType="qna">
+	<![CDATA[
+		INSERT INTO qna(qseq, user_id, qna_subject, qna_content)
+    	VALUES(qseq.NEXTVAL, #{user_id}, #{qna_subject}, #{qna_content})
+	]]>
+	</select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.ezen.biz.dto.UserVO" alias="user"/>
+		<typeAlias type="com.ezen.biz.dto.PlayVO" alias="play"/>
+		<typeAlias type="com.ezen.biz.dto.AdminVO" alias="admin"/>
+		<typeAlias type="com.ezen.biz.dto.ScheduleVO" alias="schedule"/>
+		<typeAlias type="com.ezen.biz.dto.TheaterVO" alias="theater"/>
+		<typeAlias type="com.ezen.biz.dto.TicketVO" alias="ticket"/>
+		<typeAlias type="com.ezen.biz.dto.QnaVO" alias="qna"/>
+	</typeAliases>
+	
+	<!-- SQL 매핑 파일 등록 -->
+	<mappers>
+		<mapper resource="mappings/user-mapping.xml"/>
+		<mapper resource="mappings/play-mapping.xml"/>
+		<mapper resource="mappings/qna-mapping.xml"/>
+		<mapper resource="mappings/admin-mapping.xml"/>
+		
+	</mappers>
+	
+</configuration>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,186 @@
+        header {
+          /*background-color: grey;*/
+          margin:0 auto;
+          text-align: center;
+        }
+
+        #top {
+          padding: 10px;
+          width: 900px;
+          display: inline-block;
+        }
+
+        #catagory_menu {
+          width: 910px;
+          font-size: 0.7em;
+          float: right;
+          text-align: right;
+        }
+
+        #catagory_menu ul li {
+          display: inline-block;
+          margin-left: 20px;
+          margin-right: 5px;
+        }
+
+        #logo {
+          float: left;
+          border: 1px solid black;
+          border-radius: 10px;
+          padding-left: 30px;
+          padding-right: 30px;
+          margin-top: 10px;
+        }
+
+        #search {
+          margin-top: 70px;
+          padding-left: 10px;
+          margin-left: 180px;
+          text-align: left;
+        }
+
+        #top_menu {
+          float: right;
+          padding-right: 15px;
+          margin-top: 10px;
+        }
+
+        #top_menu ul li {
+          list-style-type: none;
+          display: inline-block;  /* inline 요소에 사이즈나 여백을 지정시 사용 */
+          padding-left: 20px;
+          padding-right: 10px;
+          width: 130px;
+        }
+
+
+        footer {
+          margin:0 auto;
+          text-align: center;
+        }
+
+        #bottom {
+          display: inline-block;
+        }
+
+        #bottom ul li{
+          display: inline-block;
+          margin-left: 40px;
+          margin-right: 40px;
+        }
+        
+        #ticket_top ul li {
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 10px;
+            font-weight: bold;
+        }
+        
+        .next {
+        	border: 1px solid black;
+        	float: right;
+        	margin:0 auto;
+        }
+        
+        .side {
+            border: 1px solid black;
+            width: 360px;
+            padding: 10px;
+            float: right;
+        }
+
+        table#ticket_info {
+            border-collapse:collapse;
+            border-top: 2px solid  #333;    
+            border-bottom: 2px solid  #333;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        table#ticket_info th {
+            background-color: gray;
+            border-bottom: 1px solid rgb(167, 167, 167);
+            text-align: left;
+            width: 110px;
+        }
+
+        table#ticket_info td {
+            border-bottom: 1px solid rgb(167, 167, 167);
+            text-align: left;
+            width: 210px;
+        }
+
+        .button {
+            text-align: center;
+        }
+        
+        .bookTicket1 {
+        	border: 1px solid black;
+        	display: inline-block;
+        }
+            
+        #select_day {
+        	padding: 10px;
+        	display: inline-block;
+        	margin: 10px;
+        }
+        
+        #select_day table#calender {
+        	border-collapse:collapse;
+            border-top: 2px solid  #333;    
+            border-bottom: 2px solid  #333;
+            text-align: center;
+            width: 300px;
+            height: 200px;
+        }
+        
+        #select_day table#calender th {
+        	background-color: #c0c0c0;
+        	padding-left: 10px;
+        	padding-right: 10px;
+        }
+        
+        #select_time {
+        	display: inline-block;
+        	margin: 10px;
+        }
+        
+        #select_time ul {
+        	border: 1px solid black;
+        	text-align: center;
+        	padding: 10px;
+        	width: 150px;
+        	height: 400px;
+        }
+        
+        #select_time #time_list li {
+        	list-style-type: none;
+        	text-align: left;
+        	width: 100px;
+        }
+        
+        #seats_info {
+        	display: inline-block;
+        	margin: 10px;
+        }
+        
+        #seats_info div {
+			border: 1px solid black;
+        	text-align: center;
+        	padding: 10px;
+        	width: 150px;
+        	height: 80px;
+        }
+        
+        #seats_info div #seats {
+        	padding: 5px;
+        	margin:0 auto;
+        }
+        
+        #seats_info div #seats li {
+        	list-style-type: none;
+        	text-align: center;
+        	margin:0 auto;
+        	width: 120px;
+        }
