@@ -21,6 +21,7 @@
     	]]>
 	</select>
 	
+	
 	<!-- 공연 카테고리별 조회 -->
 	<select id="getPlayListByKind" resultType="play">
 		SELECT * FROM play WHERE play_kind=#{play_kind} ORDER BY play_like_rate DESC

@@ -39,6 +39,8 @@
             	</c:when>
             	<c:when test="${loginUser.user_id ne ''}">
             		<li><div class="nav-link" style="color:#40B2FF">${sessionScope.loginUser.user_name}(${sessionScope.loginUser.user_id})님</div></li>
+		      		<li><a href="add_play1" class="nav-link text-white">공연 등록</a></li>
+		      		<li><a href="ticketList" class="nav-link text-white">공연 예약 현황</a></li>
 		      		<li><a href="logout" class="nav-link text-white">로그아웃</a></li>
 		            <li><a href="mypageView_form" class="nav-link text-white">마이페이지</a></li>
 					<li><a href="#" class="nav-link text-white">좋아요</a></li>
@@ -59,7 +61,7 @@
     </div>
     <div class="px-3 py-2 border-bottom mb-3">
       <div class="container d-flex flex-wrap justify-content-center">
-        <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" style="width : 15rem; margin: 1px;" action="search">
+        <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" style="width : 11.2rem; margin: 1px;" action="search">
           <input type="search" name="play_name" class="form-control form-control-sm" placeholder="제목 검색..." aria-label="Search">
         </form>
 

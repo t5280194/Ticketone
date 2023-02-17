@@ -7,7 +7,7 @@ import com.ezen.biz.dto.QnaVO;
 public interface QnaService {
 	
 	// 전체 qna 목록 조회
-	List<QnaVO> getlistQna();
+	List<QnaVO> getlistQna(QnaVO vo);
 	
 	// qna 상세보기
 	QnaVO getQna(int qseq);

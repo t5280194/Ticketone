@@ -11,23 +11,24 @@
 
       <div class="container d-flex flex-wrap justify-content-center" style="margin-bottom: 1rem;">
         
-          <form class="col-9 col-lg-auto mb-2 mb-lg-0 me-lg-auto" style="margin: 1px;" action="qnaSearch">
+          <form class="col-9 col-lg-auto mb-2 mb-lg-0 me-lg-auto" style="margin: 1px;">
         	
         	<div class="row mb-3" style="margin:0;">
 	        	
-	        	<select class="form-select form-select-sm" style="width:6.4rem;" name="qnaSearchCondition">
+	        	<select class="form-select form-select-sm " style="width:6.4rem;" name="qnaSearchCondition" id="qnaSearchCondition">
 	              <option selected value="0">제목</option>
 	              <option value="1">작성자</option>
 	              <option value="2">답변여부</option>
 	          	</select>
 	            
 	            <div class="col-sm-7" style="margin:0;">
-	            	<input type="search" class="form-control form-control-sm" name="qnaSearchKeyword" aria-label="Search">
+	            	<input type="search" class="form-control form-control-sm" name="qnaSearchKeyword" id="qnaSearchKeyword" aria-label="Search">
 	            </div>
 	            
             </div>
           </form>
-          
+          <c:out value="${qnaSearchCondition}"/>
+          <c:out value="${qnaSearchKeyword}"/>
           <div>
           <c:choose>
           	<c:when test="${empty sessionScope.loginUser}">
@@ -55,8 +56,8 @@
 	            <tr>
 	              <th scope="row">
 	              <c:choose>
-	              	<c:when test="${qnaVO.qna_check == 0}">답변대기</c:when>
-	              	<c:when test="${qnaVO.qna_check == 1}">답변완료</c:when>
+	              	<c:when test="${qnaVO.qna_check == '0'}">답변대기</c:when>
+	              	<c:when test="${qnaVO.qna_check == '1'}">답변완료</c:when>
 	              </c:choose>
 	              </th>
 	              <td><c:out value="${qnaVO.user_id}"/></td>

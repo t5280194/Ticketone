@@ -15,7 +15,9 @@
         <ul class="policy_container">
         <li id="policy9" class="list_box">
           <h4>Ticketone 로고</h4>
-          <img src="images/site/logo.png"style="width:500px">
+          	<div style="max-width:500px;">	
+          		<img class="img-fluid" src="images/site/logo.png">
+          	</div>
           </li>
           <br>
 

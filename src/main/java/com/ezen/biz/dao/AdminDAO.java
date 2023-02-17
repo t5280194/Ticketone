@@ -15,9 +15,9 @@ public class AdminDAO {
 	private SqlSessionTemplate mybatis;
 	
 	// 예매현황 보기
-	public List<TicketVO> listTicket() {
+	public List<TicketVO> listTicket(TicketVO vo) {
 		
-		return mybatis.selectList("adminMapper.listTicket");
+		return mybatis.selectList("adminMapper.listTicket", vo);
 	}
 	
 }

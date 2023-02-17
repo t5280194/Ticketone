@@ -2,9 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminMapper">
 
-	<!-- 예매현황 전체 조회 -->
+	<!-- 예매현황 조회 동적쿼리 -->
 	<select id="listTicket" resultType="ticket">
-		SELECT * FROM ticket ORDER BY buy_date DESC
+		SELECT * FROM ticket WHERE 1=1
+		<choose>
+			<when test="ticketSearchCondition == 'play_name'">
+				AND play_name LIKE '%'||#{ticketSearchKeyword}||'%'
+			</when>
+			<when test="ticketSearchCondition == 'user_name'">
+				AND user_name LIKE '%'||#{ticketSearchKeyword}||'%'
+			</when>
+			<when test="ticketSearchCondition == 'ticket_id'">
+				AND ticket_id LIKE '%'||#{ticketSearchKeyword}||'%'
+			</when>
+			<when test="ticketSearchCondition == 'pay_name'">
+				AND pay_name LIKE '%'||#{ticketSearchKeyword}||'%'
+			</when>
+		</choose>
+		ORDER BY buy_date DESC
 	</select>
 
 </mapper>

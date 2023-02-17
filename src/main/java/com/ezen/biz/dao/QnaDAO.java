@@ -14,11 +14,11 @@ public class QnaDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	// 전체 qna 목록 조회
-	public List<QnaVO> listQna() {
+	// qna 목록 조회
+	public List<QnaVO> listQna(QnaVO vo) {
 		System.out.println("qnaDao 목록조회접근");
 		
-		return mybatis.selectList("qnaMapper.listQna");
+		return mybatis.selectList("qnaMapper.listQna", vo);
 	}
 	
 	// qna 상세보기

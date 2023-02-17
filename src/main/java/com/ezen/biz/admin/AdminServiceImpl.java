@@ -16,9 +16,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 예매순 추천공연 3개
 	@Override
-	public List<TicketVO> getTicketList() {
+	public List<TicketVO> getTicketList(TicketVO vo) {
 		
-		return aDao.listTicket();
+		return aDao.listTicket(vo);
 	}
 	
 

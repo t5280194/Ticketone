@@ -16,10 +16,9 @@ public class QnaServiceImpl implements QnaService {
 	
 	// Qna 목록
 	@Override
-	public List<QnaVO> getlistQna(){
+	public List<QnaVO> getlistQna(QnaVO vo){
 		
-		System.out.println("QnaServiceImpl 리스트 조회 접근");
-		return qDao.listQna();
+		return qDao.listQna(vo);
 	}
 	
 	// Qna 상세보기

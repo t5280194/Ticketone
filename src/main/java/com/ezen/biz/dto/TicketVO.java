@@ -24,6 +24,8 @@ public class TicketVO {
     private int pay_id;
     private String pay_name;
     private int pay_amount;
+    private String ticketSearchCondition;
+    private String ticketSearchKeyword;
     // 예매현황 확인 위한 객체
     
     

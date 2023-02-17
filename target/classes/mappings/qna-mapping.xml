@@ -2,10 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="qnaMapper">
 
-	<!-- qna 목록 전체 조회 -->
+	<!-- qna 목록 조회 동적쿼리 -->
 	<select id="listQna" resultType="qna">
-		SELECT * FROM qna ORDER BY qna_indate DESC
+		<![CDATA[
+			SELECT qseq, user_id, qna_subject, qna_indate, qna_check ,DECODE(qna_check, 0, '답변대기' ,1, '답변완료') FROM qna WHERE 1=1]]>
+			<if test='qnaSearchCondition=="0"'>
+				AND qna_subject LIKE '%'||#{qnaSearchKeyword}||'%'
+			</if>
+			<if test='qnaSearchCondition=="1"'>
+				AND user_id LIKE '%'||#{qnaSearchKeyword}||'%'
+			</if>
+			<if test='qnaSearchCondition=="2"'>
+				AND DECODE(qna_check, 0, '답변대기' ,1, '답변완료') LIKE '%'||#{qnaSearchKeyword}||'%'
+			</if>
+
+		
+		ORDER BY qna_indate DESC
+		
 	</select>
+	<!-- 
+	<choose>
+    <when test="title != null">
+      AND title like #{title}
+    </when>
+    <when test="author != null and author.name != null">
+      AND author_name like #{author.name}
+    </when>
+    <otherwise>
+      AND featured = 1
+    </otherwise>
+    
+    		<if test="qnaSearchKeyword != null and qnaSearchKeyword != ''">
+			<if test="qnaSearchCondition == '0' ">
+				AND qna_subject LIKE '%'||#{qnaSearchKeyword}||'%'
+			</if>
+			<if test="qnaSearchCondition == '1' ">
+				AND user_id LIKE '%'||#{qnaSearchKeyword}||'%'
+			</if>
+			<if test="qnaSearchCondition == '2' ">
+				AND qna_check LIKE '%'||#{qnaSearchKeyword}||'%'
+			</if>
+		</if>
+	 -->
 	
 	<!-- qna 상세보기 -->
 	<select id="getQna" resultType="qna">
