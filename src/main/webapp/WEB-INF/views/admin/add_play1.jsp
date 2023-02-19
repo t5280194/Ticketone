@@ -74,66 +74,62 @@
 </div>
 <!-- 공연 등록 끝-->
 </body>
-    <!--Jquery.js-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <!-- flatpicker min js -->
-    <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-    <!-- flatpicker ko -->
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-    <script type="text/javascript"> 
-		function go2(){
-        	// 데이터 담기
-    	    var data = {
-        	play_kind: $("#play_kind").val(),
-    	    play_name: $("#play_name").val(),
-    		play_date: $("#date-time-picker").val(),
-    	    theater_id: $("#theater_id").val()
-        }
-    	
-      // ajax
-          $.ajax({
-              type : 'post',           // 타입 (get, post, put 등등)
-              url : 'add_play2',           // 요청할 서버url
-              async : true,            // 비동기화 여부 (default : true)
-              headers : {              // Http header
-                "Content-Type" : "application/json",
-                "X-HTTP-Method-Override" : "POST"
-              },
-              dataType : 'text',       // 데이터 타입 (html, xml, json, text 등등)
-              data : JSON.stringify(data),  // 보낼 데이터 (Object , String, Array)
-              success : function(result) { // 결과 성공 콜백함수
-                  
-              	alert("add2로!");
-              	console.log(result);
-              	$(".add_play1").submit();
-              	
-              },
-              error : function(request, status, error) { // 결과 에러 콜백함수
-                  alert("error 발생!");
-              	console.log(error)
-              }
-          })
-        	
-		<!--$(".add_play1").submit();-->
-		
-	}
-	
-    </script>
+<!--Jquery.js-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- flatpicker min js -->
+<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+<!-- flatpicker ko -->
+<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+<script type="text/javascript"> 
+function go2(){
+   	// 데이터 담기
+    var data = {
+   	play_kind:"카인드",
+    play_name:"플레이네임",
+	play_date:"플레이데이트",
+    theater_id:"티어터아이디"
+   }
+  	
+   // ajax
+       $.ajax({
+           type : 'post',           // 타입 (get, post, put 등등)
+           url : 'add_play2',           // 요청할 서버url
+           async : true,            // 비동기화 여부 (default : true)
+
+           dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+           data : JSON.stringify(data),  // 보낼 데이터 (Object , String, Array)
+           success : function(result) { // 결과 성공 콜백함수
+               
+           	alert("add2로!");
+           	console.log(result);
+           	$(".add_play1").submit();
+           },
+           error : function(request, status, error) { // 결과 에러 콜백함수
+               alert("error 발생!");
+           	console.log(error)
+           }
+       })
+      	
+<!--$(".add_play1").submit();-->
+
+}
+
+</script>
     
-    <script>
-	// 플랫핏커
-    $("#date-time-picker").flatpickr({
-        mode: 'range',
-        enableTime: false,           // 시간 선택 여부
-        altInput: true,              // 기존 입력을 숨기고 새 입력을 만듦
-        altFormat: 'Y-m-d',          // 날짜 선택 후 표시 형태
-        dateFormat: 'Y-m-d H:i',     // date format 형식
-        minDate: 'today',            // 최소 선택 시간
-        locale: 'ko',                // 한국어
-        time_24hr: true,             // 24시간 형태
-        disableMobile: true          // 모바일 지원 
-    });
-    </script>
-    <!--flatpicker cdn-->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+// 플랫핏커
+   $("#date-time-picker").flatpickr({
+       mode: 'range',
+       enableTime: false,           // 시간 선택 여부
+       altInput: true,              // 기존 입력을 숨기고 새 입력을 만듦
+       altFormat: 'Y-m-d',          // 날짜 선택 후 표시 형태
+       dateFormat: 'Y-m-d H:i',     // date format 형식
+       minDate: 'today',            // 최소 선택 시간
+       locale: 'ko',                // 한국어
+       time_24hr: true,             // 24시간 형태
+       disableMobile: true          // 모바일 지원 
+   });
+</script>
+<!--flatpicker cdn-->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <%@ include file="../footer.jsp" %>
