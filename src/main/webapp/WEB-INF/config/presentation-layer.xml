@@ -24,6 +24,7 @@
 	<mvc:resources location="/WEB-INF/views/mypage/" mapping="/mypage/**"></mvc:resources>
 	<mvc:resources location="/WEB-INF/views/product/" mapping="/product/**"></mvc:resources>
 	<mvc:resources location="/WEB-INF/views/admin/" mapping="/admin/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/views/ticketBook/" mapping="/ticketBook/**"></mvc:resources>
 	
 	<!-- JSP View Resolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

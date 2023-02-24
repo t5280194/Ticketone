@@ -1,5 +1,6 @@
 package com.ezen.biz.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -34,12 +35,6 @@ public class PlayDAO {
 		return mybatis.selectList("playMapper.getPlayListByKind", play_kind);
 	}
 	
-	
-	public List<PlayVO> getPlayList() {
-		
-		return mybatis.selectList("playMapper.getPlayList");
-	}
-	
 	// 공연 상세 정보
 	public PlayVO getPlay(PlayVO vo) {
 		
@@ -52,12 +47,37 @@ public class PlayDAO {
 		return mybatis.selectList("playMapper.getPlayListBySearch", play_name);
 	}
 	
-	public List<ScheduleVO> getPlayScheduleList(String name) {
+	
+	
+	
+	// 공연 전체 회차 정보 조회
+	public List<ScheduleVO> getPlayScheduleList(int pseq) {
 		
-		return mybatis.selectList("playMapper.getPlayScheduleList", name);
+		return mybatis.selectList("ticketMapper.getPlayScheduleList", pseq);
 	}
 	
-	public TheaterVO getRemainedSeat(int seq) {
-		return mybatis.selectOne("playMapper.getRemainedSeat", seq);
+	// 공연 일정 번호 조회
+	public int getScheduleSeq(Date date) {
+		
+		return mybatis.selectOne("ticketMapper.getScheduleSeq", date);
+	}
+	
+	
+	// 예매된 공연 좌석수 조회
+	public List<ScheduleVO> getBookSeat(int seq) {
+		
+		return mybatis.selectList("ticketMapper.getBookSeat", seq);
+	}
+	
+	// 공연 일정 조회 
+	public ScheduleVO getSchedule(ScheduleVO vo) {
+		
+		return mybatis.selectOne("ticketMapper.getSchedule", vo);
+	}
+	
+	// 공연 전체 좌석수 조회
+	public TheaterVO getTotalSeat(int pseq) {
+		
+		return mybatis.selectOne("ticketMapper.getTotalSeat", pseq);
 	}
 }

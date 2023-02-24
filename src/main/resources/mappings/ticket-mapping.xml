@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ticketMapper">
+
+	<!-- 공연 목록 전체 조회 -->
+	<select id="getPlayList" resultType="play">
+		SELECT * FROM play
+	</select>
+	
+	<!-- 공연 상세 조회 -->
+	<select id="getPlay" resultType="play">
+		SELECT * FROM play WHERE play_pseq=#{play_pseq}
+	</select>
+	
+	<!-- 공연 회차 정보 조회 -->
+	<select id="getPlayScheduleList" parameterType="int" resultType="schedule">
+		SELECT s.play_pseq, s.play_schedule FROM schedule_1 s 
+			INNER JOIN play p
+			ON p.play_pseq = s.play_pseq
+		WHERE p.play_pseq = #{play_pseq}
+	</select>
+	
+	<!-- 공연 일정 번호 조회 -->
+	<select id="getScheduleSeq" resultType="int">
+		SELECT schedule_seq FROM schedule_1
+		WHERE play_schedule = #{play_schedule}
+	</select>
+		
+	<!-- 공연 일정 조회 -->
+	<select id="getSchedule" resultType="schedule">
+		SELECT * FROM schedule_1 WHERE schedule_seq=#{schedule_seq}
+	</select>
+	
+		<!-- 예매된 공연 좌석 조회 -->
+	<select id="getBookSeat" resultType="schedule">
+		SELECT schedule_seq, vip_count, s_count, a_count FROM schedule_1
+			WHERE schedule_seq = #{schedule_seq}
+	</select>
+	
+	<!-- 공연 전체 좌석 조회 -->
+	<select id="getTotalSeat" resultType="theater">
+		SELECT seat_vip, seat_s, seat_a FROM theater
+			WHERE theater_id = (SELECT theater_id FROM play WHERE play_pseq=#{play_pseq})
+	</select>
+
+	<select id="getDiscountList" resultType="discount">
+		SELECT * FROM discount 
+	</select>
+	
+	<select id="getDiscount" resultType="discount">
+		SELECT * FROM discount WHERE discount_id = #{discount_id}
+	</select>
+	
+	<insert id="insertTicket" parameterType="ticket">
+		INSERT INTO ticket(tseq, play_pseq, play_name, ticket_id, theater_id, schedule_seq, ticket_seat, discount_id, pay_id, pay_name, pay_amount) 
+			VALUES(tseq.NEXTVAL, #{play_pseq}, #{play_name}, #{ticket_id}, #{theater_id}, #{schedule_seq}, #{ticket_seat}, #{discount_id}, #{pay_id}, #{pay_name}, #{pay_amount})
+	</insert>
+	
+	<!-- 예매 후 공연 예매 좌석수 수정 -->
+	<update id="updateBookSeat">
+		UPDATE schedule_1 SET vip_count=#{vip_count}, s_count=#{s_count}, a_count=#{a_count}
+			WHERE schedule_seq = #{schedule_seq}
+	</update>
+	
+	<!-- 각 공연의 예매된 좌석 번호 조회 -->
+	<select id="getBookSeatID" resultType="String">
+		SELECT ticket_seat FROM ticket 
+			WHERE play_pseq=#{play_pseq} AND schedule_seq=#{schedule_seq}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

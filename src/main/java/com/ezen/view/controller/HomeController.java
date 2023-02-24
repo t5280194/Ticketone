@@ -24,13 +24,10 @@ public class HomeController {
 		
 		// 좋아요순 추천공연 5개
 		List<PlayVO> bestLikePlayList = playservice.getBestLikePlayList();
-		
-		//모든 공연 리스트
-		List<PlayVO> PlayList = playservice.getPlayList();
+
 		
 		model.addAttribute("bestSoldPlayList", bestSoldPlayList);
 		model.addAttribute("bestLikePlayList", bestLikePlayList);
-		model.addAttribute("PlayList", PlayList);
 		
 		return "index";	//index.jsp 호출
 	}

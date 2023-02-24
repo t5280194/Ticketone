@@ -21,7 +21,7 @@
           </tr>
           <tr>
             <th scope="row">작성일시</th>
-            <td><c:out value="${qnaVO.qna_indate}"/></td>
+            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.qna_indate}"/></td>
           </tr>
           <tr>
             <th scope="row" style="height:10rem;">내용</th>
@@ -38,7 +38,7 @@
           </tr>
           <tr>
             <th scope="row">작성일시</th>
-            <td><c:out value="${qnaVO.answer_indate}"/></td>
+            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.answer_indate}"/></td>
           </tr>
           <tr>
             <th scope="row" style="height:10rem;">내용</th>

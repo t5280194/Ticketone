@@ -25,4 +25,5 @@ public class PlayVO {
 	private int play_like_rate;
 	private Timestamp play_regdate;
 	private int theater_id;
+	private String discount_info;
 }

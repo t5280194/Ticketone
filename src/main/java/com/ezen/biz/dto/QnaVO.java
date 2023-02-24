@@ -1,6 +1,6 @@
 package com.ezen.biz.dto;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,10 +14,10 @@ public class QnaVO {
 	private String user_id;
 	private String qna_subject;
 	private String qna_content;
-	private Timestamp qna_indate;
+	private Date qna_indate;
 	private String answer_subject;
 	private String answer_content;
-	private Timestamp answer_indate;
+	private Date answer_indate;
 	private int qna_check;	// 0 = 답변대기, 1 = 답변완료
 	private String qnaSearchCondition;
 	private String qnaSearchKeyword;

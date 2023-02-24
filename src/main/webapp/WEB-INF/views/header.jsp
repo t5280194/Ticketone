@@ -10,6 +10,12 @@
   <meta charset="UTF-8">
   <title>Ticketone</title>
   <link rel="stylesheet" href="css/ticket.css">
+  <!-- 
+  <link rel="stylesheet" href="css/date.css">
+  <link rel="stylesheet" href="css/seat.css">
+  <link rel="stylesheet" href="css/price.css">
+  <link rel="stylesheet" href="css/purchase.css">
+   -->
   <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
   <style>
     body{background-image:url(images/site/bg.jpg)}

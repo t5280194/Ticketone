@@ -21,6 +21,48 @@
 		</choose>
 		ORDER BY buy_date DESC
 	</select>
+	
+	<!-- add_play1 -->
+	<insert id="insertPlayTemp" useGeneratedKeys="true" keyColumn="play_pseq" keyProperty="play_pseq">
+		INSERT INTO play_temp(play_pseq, play_name, play_date, play_kind, theater_id, play_poster, done_yn)  
+				VALUES(play_pseq.NEXTVAL, #{play_name}, #{play_date}, #{play_kind}, #{theater_id}, #{play_poster}, 'n')
+	</insert>
+	
+	<!-- add_play2 -->
+	<insert id="insertPlay2Temp">
+		INSERT INTO schedule_1(schedule_seq, play_pseq, play_schedule)
+			VALUES (schedule_seq.NEXTVAL, #{play_pseq},
+			TO_DATE(#{add_play_schedule}, 'YYYY-MM-DD HH24:MI'))
+	</insert>
+	
+	<!-- add_play3 -->
+	<update id="insertPlay3Temp" useGeneratedKeys="true" keyColumn="play_pseq" keyProperty="play_pseq">
+		UPDATE play_temp SET play_image1=#{play_image1}, play_image2=#{play_image2}, play_image3=#{play_image3}, play_content=#{play_content}
+		 WHERE play_pseq=#{play_pseq}
+	</update>
+	
+	<!-- theater_id로 공연장정보 가져오기 --> 
+	<select id="gettheater" resultType="theater">
+	 	SELECT * FROM theater WHERE theater_id = #{theater_id}
+	</select>
+	
+	<!-- add_play4 -->
+	<update id="insertPlay4Temp">
+		UPDATE play_temp SET play_price_vip = #{play_price_vip}, play_price_s = #{play_price_s},
+		play_price_a = #{play_price_a}, discount_info = #{discount_info}, play_regdate = TO_DATE(sysdate),
+		done_yn='y'
+		 WHERE play_pseq=#{play_pseq}
+	</update>
+	
+	<!-- add_play final-->
+	<insert id="insertPlay">
+		INSERT INTO play (play_pseq, play_name, play_date, play_kind, play_price_vip, play_price_s, play_price_a,
+						 play_poster, play_image1, play_image2, play_image3, play_content, theater_id, discount_info)
+			SELECT play_pseq, play_name, play_date, play_kind, play_price_vip, play_price_s, play_price_a,
+						 play_poster, play_image1, play_image2, play_image3, play_content, theater_id, discount_info
+			FROM play_temp t
+			WHERE play_pseq = #{play_pseq}
+	</insert>
 
 </mapper>
 

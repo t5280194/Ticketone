@@ -11,3 +11,15 @@ function go_page() {
 		$("#mypageView").submit();
 	}
 }
+
+// 댓글 입력
+function reply_insert() {
+	var name = "${sessionScope.loginUser.user_name}";
+	if(name == null) {
+		$("#insertReply").action = "insertReply";
+		$("#insertReply").submit();
+	} else {
+		alert("로그인 하세요");
+		return false;
+	}
+}

@@ -1,5 +1,6 @@
 package com.ezen.biz.play;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +38,6 @@ public class PlayServiceImpl implements PlayService {
 		return pDao.getPlayListByKind(play_kind);
 	}
 	
-	// 공연 추가
-	/*
-	public void addPlay(PlayVO vo) {
-		
-		pDao.addPlay(vo);
-	}
-	*/
-	
-	@Override
-	public List<PlayVO> getPlayList() {
-		
-		return pDao.getPlayList();
-	}
-
 	// 공연 상세 정보
 	@Override
 	public PlayVO getPlay(PlayVO vo) {
@@ -66,16 +53,44 @@ public class PlayServiceImpl implements PlayService {
 		return pDao.getPlayListBySearch(play_name);
 	}
 
+	
+	
+	// 공연 전체 스케쥴 정보 조회
 	@Override
-	public List<ScheduleVO> getPlayScheduleList(String name) {
+	public List<ScheduleVO> getPlayScheduleList(int pseq) {
 		
-		return pDao.getPlayScheduleList(name);
+		return pDao.getPlayScheduleList(pseq);
+	}
+	
+	// 스케쥴 번호 조회
+	@Override
+	public int getScheduleSeq(Date date) {
+		
+		return pDao.getScheduleSeq(date);
+	}
+	
+	// 예매된 좌석수 조회
+	@Override
+	public List<ScheduleVO> getBookSeat(int seq) {
+		
+		return pDao.getBookSeat(seq);
+	}
+	
+	// 공연 일정 조회
+	@Override
+	public ScheduleVO getSchedule(ScheduleVO vo) {
+		
+		return pDao.getSchedule(vo);
 	}
 
+	// 공연 전제 좌석수 조회
 	@Override
-	public TheaterVO getRemainedSeat(int seq) {
+	public TheaterVO getTotalSeat(int pseq) {
 		
-		return pDao.getRemainedSeat(seq);
+		return pDao.getTotalSeat(pseq);
 	}
+
+
+
 
 }

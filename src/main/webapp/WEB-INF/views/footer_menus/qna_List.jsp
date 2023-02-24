@@ -61,7 +61,7 @@
 	              </c:choose>
 	              </th>
 	              <td><c:out value="${qnaVO.user_id}"/></td>
-	              <td><c:out value="${qnaVO.qna_indate}"/></td>
+	              <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.qna_indate}"/></td>
 	              <td><a href="qna_Detail?qseq=${qnaVO.qseq}"><c:out value="${qnaVO.qna_subject}"/></a></td>
 	            </tr>
 	          </c:forEach>

@@ -1,0 +1,43 @@
+	.bookTicket4 {
+		width: 800px;
+		height: 400px;
+	}
+	
+	.bookTicket4 div {
+		width: 300px;
+		height: 400px;
+		padding: 5px;
+		margin: 10px;
+	}
+	
+	#pay {
+		width: 280px;
+		height: 300px;
+		padding: 5px;
+		margin: 5px;
+	}
+	
+	#pay div table {
+		border-collapse:collapse;
+    	font-size: small;
+    	width: 100%;
+    	padding: 10px;
+    	margin:0 auto;
+	}
+	
+	#pay div table th {
+		background-color: #d1d1d1;
+		border: 1px solid #d1d1d1;
+    	text-align: left;
+    	padding: 10px;
+    	padding-left: 10px;
+	}
+	
+	#pay div table td {
+		border: 1px solid #d1d1d1;
+    	text-align: center;
+    	font-size: small;
+    	color: grey;
+    	padding: 5px;
+    	margin: 50px;
+	}

@@ -1,0 +1,20 @@
+	.bookTicket3 {
+		padding: 20px;
+        float: left;
+	}
+	
+	table.priceDiscount {
+		border-collapse:collapse;
+		border: 1px solid rgb(167, 167, 167);
+	}
+	
+	table.priceDiscount th {
+		background-color: gray;
+		border-bottom: 1px solid rgb(167, 167, 167);
+		padding: 10px;
+	}
+	
+	table.priceDiscount td {
+		border: 1px solid rgb(167, 167, 167);
+		padding: 10px;
+	}
