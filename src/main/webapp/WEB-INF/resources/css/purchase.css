@@ -1,13 +1,14 @@
-	.bookTicket4 {
+	/*.bookTicket4 {
 		width: 800px;
 		height: 400px;
 	}
+	*/
 	
 	.bookTicket4 div {
 		width: 300px;
 		height: 400px;
-		padding: 5px;
-		margin: 10px;
+		/*padding: 5px;
+		margin: 10px;*/
 	}
 	
 	#pay {

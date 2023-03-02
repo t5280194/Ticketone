@@ -2,12 +2,16 @@ package com.ezen.biz.admin;
 
 import java.util.List;
 
+import com.ezen.biz.dto.AdminVO;
 import com.ezen.biz.dto.PlayVO;
 import com.ezen.biz.dto.ScheduleVO;
 import com.ezen.biz.dto.TheaterVO;
 import com.ezen.biz.dto.TicketVO;
 
 public interface AdminService {
+	
+	// 관리자 로그인 정보
+	AdminVO getAdmin(String aid);
 	
 	// 예매현황 보기
 	List<TicketVO> getTicketList(TicketVO vo);

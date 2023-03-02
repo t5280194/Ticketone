@@ -43,7 +43,7 @@
               <th scope="col" >공연명</th>
               <th scope="col">공연 기간</th>
               <th scope="col">공연장</th>
-              <th scope="col">좋아요</th>
+              <!-- <th scope="col">좋아요</th> -->
               <th scope="col">공연 예매</th>
             </tr>
           </thead>
@@ -53,14 +53,14 @@
               <td style="padding-inline: 1rem;"><c:out value="${playVO.play_date}"/></td>
               <td style="padding-inline: 1rem;">
               	<c:choose>
-					<c:when test="${playVO.theater_id == 1}">공연장1</c:when>
-					<c:when test="${playVO.theater_id == 2}">공연장2</c:when>			
-					<c:when test="${playVO.theater_id == 3}">공연장3</c:when>
-					<c:when test="${playVO.theater_id == 4}">공연장4</c:when>
-					<c:when test="${playVO.theater_id == 5}">공연장5</c:when>
+					<c:when test="${playVO.theater_id == 1}">하늘대공연장</c:when>
+					<c:when test="${playVO.theater_id == 2}">스타콘서트홀</c:when>			
+					<c:when test="${playVO.theater_id == 3}">서울예술극장</c:when>
+					<c:when test="${playVO.theater_id == 4}">상상극장</c:when>
+					<c:when test="${playVO.theater_id == 5}">희망소극장</c:when>
 			   </c:choose>
               </td>
-              <td style="padding-inline: 1rem;">♡</td>
+              <!-- <td style="padding-inline: 1rem;">♡</td> -->
               <td style="padding-inline: 1rem;"><a href="book_ticket1?play_pseq=${playVO.play_pseq}" type="button" class="btn btn-sm btn-outline-secondary" style= "width:5rem; color:#40B2FF">예매하기</a></td>
             </tr>
 
@@ -158,5 +158,7 @@
 	</div>
 	</c:otherwise>
 </c:choose>
+<!-- 댓글 작성 끝 -->
+
 </body>
 <%@ include file="../footer.jsp" %>

@@ -2,12 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="userMapper">
 	
+	
+	<!-- user 정보 가져오기 -->
 	<select id="getMember" resultType="user">
 		SELECT * from ticket_user WHERE user_id=#{user_id}
 	</select>
 	
+	<!-- admin 정보 가져오기 -->
+	<select id="getAdmin" resultType="user">
+		SELECT * FROM admin WHERE admin_id=#{user_id}
+	</select>
+	
+	<!-- user ID 있는지 조회 -->
 	<select id="confirmID" resultType="String">
 		SELECT user_password FROM ticket_user WHERE user_id=#{user_id}
+	</select>
+	
+	<!-- admin ID 있는지 조회 -->
+	<select id="confirmAID" resultType="String">
+		SELECT admin_password FROM admin WHERE admin_id=#{user_id}
 	</select>
 	
 	<!-- 회원가입 -->
@@ -53,4 +66,26 @@
 	<delete id="deleteUser" parameterType="user">
 		DELETE FROM ticket_user WHERE user_id=#{user_id} AND user_password=#{user_password}
 	</delete>
+	
+	<!-- 유저 티켓 목록 확인 -->
+	<select id="getuserTicketList" resultType="ticket">
+		SELECT * FROM ticket WHERE user_id = #{user_id} ORDER BY buy_date DESC
+	</select>
+	<!-- 유저 티켓 상세 확인 -->
+	<select id="getuserTicket" resultType="ticket">
+		SELECT t.TSEQ, p.play_poster, h.theater_name, s.play_schedule, t.PLAY_PSEQ, t.PLAY_NAME,
+		t.TICKET_ID, t.USER_ID, t.USER_NAME, t.BUY_DATE,t.THEATER_ID, t.SCHEDULE_SEQ,
+		t.TICKET_SEAT, t.DISCOUNT_ID, t.PAY_ID, t.PAY_NAME, t.PAY_AMOUNT
+		FROM ticket t, play p, theater h, schedule_1 s
+		WHERE t.play_pseq = p.play_pseq
+		AND t.theater_id = h.theater_id
+		AND s.schedule_seq = t.schedule_seq
+		AND tseq = #{tseq}
+	</select>
+	
 </mapper>
+
+
+
+
+

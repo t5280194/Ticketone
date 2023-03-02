@@ -4,8 +4,18 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.io.*, java.util.Date, java.util.Calendar, java.util.Enumeration" %>
+<!-- <script type="text/javascript" src="user/user.js" charset="UTF-8"></script>--><!-- utf-8추가 -->
+<script type="text/javascript" src="user.js"></script><!-- 위치 -->
 <%@ include file="../header.jsp" %> 
-  <article>
+
+
+<!--card 시작-->
+<div class="d-flex justify-content-center">
+  <div class="card" style="background-color: transparent; color: white; width: 80rem; margin: 0.1rem;">
+    <span class="border border-white border border-2 rounded">
+      <div class="card-body">
+        		
+ <article>
     <h2 align="center">탈퇴 약관</h2><hr>   
     <form id="delete" action="delete" method="post" name="formm" align="center">
         <p style= color:red>탈퇴약관을 자세히 읽어 보세요.</p>
@@ -189,8 +199,32 @@
       <input type="radio" name="okon1" class="agree" checked> 상기 사항을 모두 확인하였습니다. &nbsp; &nbsp; &nbsp;
       <input type="radio" name="okon1" class="agree" checked> 동의안함
       </div><br><br>
-      <input type="button" value="탈퇴" class="btn btn-sm btn-outline-secondary"  onclick="go_deleteview()">
-      <input type="button" value="취소" class="btn btn-sm btn-outline-secondary"  onclick="location='../biz/index.html'">
+      <input type="button" value="탈퇴" class="btn btn-primary"  onclick="go_deleteview()">
+      <input type="button" value="취소" class="btn btn-primary"  onclick="location='../biz/index.html'">
     </form>
   </article>
+        
+    	</div>
+    </span>
+  </div>
+</div>
+<!--card 끝-->
+
+<script type="text/javascript">
+/*
+** 탈퇴 약관 동의 여부
+*/
+function go_deleteview() {
+	if (document.formm.okon1[0].checked == true) {  // 동의함 선택의 경우
+		document.formm.action = "deleteview";
+		document.formm.submit();  // Controller로 전송
+	} else if (document.formm.okon1[1].checked == true) {
+		alert("약관에 동의하셔야 합니다!");
+	}
+}
+</script>
+
+
+
+
 <%@ include file="../footer.jsp" %>  

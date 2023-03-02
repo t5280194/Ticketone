@@ -17,4 +17,5 @@ public class ScheduleVO {
 	private int vip_count;
 	private int s_count;
 	private int a_count;
+	
 }

@@ -24,6 +24,7 @@
 	<select id="getScheduleSeq" resultType="int">
 		SELECT schedule_seq FROM schedule_1
 		WHERE play_schedule = #{play_schedule}
+		AND play_pseq = #{play_pseq}
 	</select>
 		
 	<!-- 공연 일정 조회 -->
@@ -51,10 +52,30 @@
 		SELECT * FROM discount WHERE discount_id = #{discount_id}
 	</select>
 	
+	<!-- 
 	<insert id="insertTicket" parameterType="ticket">
 		INSERT INTO ticket(tseq, play_pseq, play_name, ticket_id, theater_id, schedule_seq, ticket_seat, discount_id, pay_id, pay_name, pay_amount) 
 			VALUES(tseq.NEXTVAL, #{play_pseq}, #{play_name}, #{ticket_id}, #{theater_id}, #{schedule_seq}, #{ticket_seat}, #{discount_id}, #{pay_id}, #{pay_name}, #{pay_amount})
 	</insert>
+	 -->
+	 
+	 <insert id="insertTicket" parameterType="ticket" useGeneratedKeys="true" keyColumn="tseq" keyProperty="tseq">
+		INSERT INTO ticket (tseq, play_pseq, play_name, ticket_id, theater_id, user_id, user_name, schedule_seq, ticket_seat, discount_id, pay_id, pay_name, pay_amount) 
+			VALUES(tseq.NEXTVAL, #{play_pseq}, #{play_name}, #{ticket_id}, #{theater_id}, #{user_id}, #{user_name}, #{schedule_seq}, #{ticket_seat}, #{discount_id}, #{pay_id}, #{pay_name}, #{pay_amount})
+	</insert>
+	
+	<!-- 예매 등록 후 tseq값으로 예매정보 가져오기 -->
+	<select id="completeTicket" resultType="ticket">
+		SELECT t.TSEQ, p.play_poster, h.theater_name, s.play_schedule, t.PLAY_PSEQ, t.PLAY_NAME,
+		t.TICKET_ID, t.USER_ID, t.USER_NAME, t.BUY_DATE,t.THEATER_ID, t.SCHEDULE_SEQ,
+		t.TICKET_SEAT, t.DISCOUNT_ID, t.PAY_ID, t.PAY_NAME, t.PAY_AMOUNT
+		FROM ticket t, play p, theater h, schedule_1 s
+		WHERE t.play_pseq = p.play_pseq
+		AND t.theater_id = h.theater_id
+		AND s.schedule_seq = t.schedule_seq
+		AND tseq = #{tseq}
+	</select>
+	 
 	
 	<!-- 예매 후 공연 예매 좌석수 수정 -->
 	<update id="updateBookSeat">

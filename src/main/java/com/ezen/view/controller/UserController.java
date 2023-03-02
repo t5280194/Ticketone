@@ -2,7 +2,9 @@ package com.ezen.view.controller;
 
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.ezen.biz.dto.AdminVO;
+import com.ezen.biz.dto.TicketVO;
 import com.ezen.biz.dto.UserVO;
 import com.ezen.biz.user.UserService;
 
@@ -24,7 +28,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+		
 	// 약정화면 표시
 	@RequestMapping(value="/contract", method=RequestMethod.GET)
 	public String contractView() {
@@ -62,7 +66,7 @@ public class UserController {
 	
 	// 회원 탈퇴
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public String deleteUser(UserVO vo, SessionStatus status ) {
+	public String deleteUser(UserVO vo, AdminVO avo, SessionStatus status ) {
 		
 		userService.deleteUser(vo);
 		
@@ -76,15 +80,22 @@ public class UserController {
 	public String loginAction(UserVO vo, Model model) {
 			
 		int result = userService.loginID(vo);
+		
+		System.out.println("id조회 갔다옴" + vo);
 			
-		if (result == 1) { // 로그인 성공
-			model.addAttribute("loginUser", userService.getMember(vo.getUser_id()));
-				
+		if (result == 1) { // 유저 로그인 성공
+			model.addAttribute("loginUser", userService.getMember(vo));
 			return "redirect:index";
+		} else if (result == 2) {	//관리자 로그인 성공
+			vo.setAdmin_id(vo.getUser_id());
+			
+			model.addAttribute("loginUser", userService.getMember(vo));
+			return "redirect:index";
+			
 		} else {
 			return "user/login_fail";
 		}
-	}	
+	}
 	
 	// 로그아웃
 	@GetMapping(value="/logout")
@@ -269,4 +280,41 @@ public class UserController {
 		
 		return "user/updateUser";
 	}
+	
+	// 유저 티켓 목록 확인
+	@RequestMapping(value="userTicketList")
+	public String userTicketList(TicketVO tvo, String user_id, HttpSession session,
+								Model model) {
+		
+		// 로그인 여부 확인
+		tvo.setUser_id(user_id);
+		System.out.println(">>>>>>>userTicketList컨트롤러 user_id : "+user_id);
+		List<TicketVO> userTicketList = userService.getuserTicketList(tvo);
+		model.addAttribute("userTicketList", userTicketList);
+		
+		return "mypage/userTicketList";	// userTicketList.jsp 호출
+	}
+	
+	// 유저 티켓 상세 확인
+	@RequestMapping(value="userTicket")
+	public String userTicket(TicketVO tvo, String tseq, HttpSession session,
+							Model model) {
+		// 로그인 여부 확인
+		
+		tvo.setUser_id(tseq);
+		System.out.println(">>>>>>>userTicket컨트롤러 tseq : "+tseq);
+		TicketVO userTicket = userService.getuserTicket(tvo) ;
+		model.addAttribute("ticket", userTicket);
+		System.out.println(">>>>>>>userTicket 컨트롤러 userTicket : "+userTicket);
+		
+		return "mypage/userTicket";	// userTicket.jsp 호출
+	}
 }
+
+
+
+
+
+
+
+

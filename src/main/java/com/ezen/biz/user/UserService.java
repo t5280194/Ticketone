@@ -1,11 +1,14 @@
 package com.ezen.biz.user;
 
+import java.util.List;
+
+import com.ezen.biz.dto.TicketVO;
 import com.ezen.biz.dto.UserVO;
 
 public interface UserService {
 
 	// 회원 상세정보 조회
-	UserVO getMember(String id);
+	UserVO getMember(UserVO vo);
 	
 	//  회원 추가
 	void insertUser(UserVO vo);
@@ -36,4 +39,10 @@ public interface UserService {
 	
 	// 회원ID 존재여부 확인
 	int confirmID(String id);
+	
+	// 유저 티켓 목록 확인
+	List<TicketVO> getuserTicketList(TicketVO tvo);
+	
+	// 유저 티켓 상세 확인
+	TicketVO getuserTicket(TicketVO tvo);
 }

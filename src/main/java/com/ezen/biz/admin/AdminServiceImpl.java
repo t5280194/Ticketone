@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezen.biz.dao.AdminDAO;
+import com.ezen.biz.dto.AdminVO;
 import com.ezen.biz.dto.PlayVO;
 import com.ezen.biz.dto.ScheduleVO;
 import com.ezen.biz.dto.TheaterVO;
@@ -17,13 +18,23 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminDAO aDao;
 	
+	
+	// 관리자 로그인 정보
+	@Override
+	public AdminVO getAdmin(String aid) {
+		
+		return aDao.getAdmin(aid);
+	}
+	
+	
 	// 예매순 추천공연 3개
 	@Override
 	public List<TicketVO> getTicketList(TicketVO vo) {
 		
 		return aDao.listTicket(vo);
 	}
-
+	
+	// add_play2
 	@Override
 	public int insertPlayTemp(PlayVO vo) {
 		

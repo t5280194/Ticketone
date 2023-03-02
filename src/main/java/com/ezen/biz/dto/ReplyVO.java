@@ -10,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReplyVO {
+	private String play_name;
 	private int play_pseq;
 	private int reply_pseq;
 	private int reply_star;
@@ -18,4 +19,8 @@ public class ReplyVO {
 	private Date reply_date;
 	
 	private String star_image;
+	// reply 검색조건, 검색키워드
+	private String replySearchCondition;
+	private String replySearchKeyword;
+	
 }

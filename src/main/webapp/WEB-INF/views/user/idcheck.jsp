@@ -7,7 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="user/user.js"></script>
+<!-- <script type="text/javascript" src="user/user.js" charset="UTF-8"></script>--><!-- utf-8추가 -->
+<script type="text/javascript" src="user.js"></script><!-- 위치 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
 <meta charset="UTF-8">

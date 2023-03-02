@@ -1,15 +1,14 @@
  .bookTicket2 {
- 	border: 1px solid black;
  	width: 800px;
-    height: 100vh;
+    /*height: 95vh;*/
+    height: 55rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: 'Lato', sans-serif;
-    background-color: #242333;
-    color: #fff;
-    margin: 0;
+    background-color: white;
+    color: grey;
   }
 
  .showcase {
@@ -35,50 +34,146 @@
 
   .container {
     perspective: 700px;
-    margin-bottom: 30px;
   }
 
   .screen {
-    width: 100%;
+  	display: flex;
+    justify-content: space-between;
+    width: 70%;
     height: 90px; 
-    background-color: #fff;
-    margin: 15px 0;
+    background-color: lightgrey;
+    margin-left: auto;
+	margin-right: auto;
+    
   }
-
   .row {
     display: flex;
+    margin-left: 3.2rem;
+    
   }
-
+  
   .alphabet {
-  	margin-right: 8px;
+  	width: 20px;
+    height: 20px;
+    /*background-color: #444451;*/
+    margin: 3px;
+    text-align: center;
+    background-color:transparent;
   	
   }
-
   .seat {
     width: 20px;
     height: 20px;
-    background-color: #444451;
+    font-size: 15px;
+    /*background-color: #444451;*/
+    white-space : nowrap;
     margin: 3px;
     text-align: center;
-
+    /*position: relative;*/
   }
 
+  .number {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    white-space : nowrap;
+    margin: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    padding: 0;
+  }
+  
+  .number:nth-of-type(6) {
+    margin-right: 22px;
+  }
+  
+   .number:nth-of-type(16) {
+    margin-right: 21px;
+  }
+  
+  /* showcase 색아이콘 */
+  .vip_seat{
+  	width: 20px;
+    height: 20px;
+    margin: 3px;
+    text-align: center;
+    background-color: #660ff1;
+  }
+  
+    .s_seat{
+  	width: 20px;
+    height: 20px;
+    margin: 3px;
+    text-align: center;
+    background-color: #188754;
+  }
+  
+    .a_seat{
+  	width: 20px;
+    height: 20px;
+    margin: 3px;
+    text-align: center;
+    background-color: #0DCAF0;
+  }
+  
+  /* 좌석선택칸 설정*/
+  #vip_seat {
+	width: 20px;
+    height: 20px;
+    /*background-color: #444451;*/
+    text-align: center;
+    background-color: #660ff1;
+  }
+  
+  #s_seat {
+  width: 20px;
+    height: 20px;
+    /*background-color: #444451;*/
+    text-align: center;
+    background-color: #188754;
+  }
+  
+  #a_seat {
+  width: 20px;
+    height: 20px;
+    /*background-color: #444451;*/
+    text-align: center;
+    background-color: #0DCAF0;
+  }
+  /*vip 현재 선택좌석*/
+    #vip_seat.selected {
+    background-color: rgb(236, 164, 30);
+  }
+    /*s 현재 선택좌석*/
+    #s_seat.selected {
+    background-color: rgb(236, 164, 30);
+  }
+    /*a 현재 선택좌석*/
+    #a_seat.selected {
+    background-color: rgb(236, 164, 30);
+  }
+   /* 통로 */
   .seat:nth-of-type(6) {
-    margin-right: 18px;
+    margin-right: 20px;
   }
   
   .seat:nth-of-type(16) {
-    margin-right: 18px;
+    margin-right: 20px;
   }
 
+
+  .seat.selection {
+    background-color: rgb(236, 164, 30);
+  }
 
   
   .seat.selected {
-    background-color: #6feaf6;
+    background-color: rgb(236, 164, 30);
   }
   
   .seat.occupied {
-    background-color: #fff;
+    background-color: #878787;
     color: #444451;
   }
   

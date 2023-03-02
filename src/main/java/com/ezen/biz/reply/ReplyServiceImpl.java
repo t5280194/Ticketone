@@ -16,6 +16,20 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	public ReplyServiceImpl() {}
 	
+	// 관리자 댓글 관리
+	@Override
+	public List<ReplyVO> replyList(ReplyVO rvo) {
+		
+		return rDao.replyList(rvo);
+	}
+	
+	// 관리자 댓글 삭제
+	@Override
+	public void adminReplyDelete(ReplyVO rvo) {
+		
+		rDao.adminReplyDelete(rvo);		
+	}
+	
 	@Override
 	public void insertReply(ReplyVO reply) {
 		rDao.insertReply(reply);
@@ -36,4 +50,5 @@ public class ReplyServiceImpl implements ReplyService {
 		rDao.deleteReply(reply);
 	}
 
+	
 }

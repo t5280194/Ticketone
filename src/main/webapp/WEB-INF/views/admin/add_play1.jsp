@@ -129,8 +129,7 @@
 		minDate : 'today', // 최소 선택 시간
 		locale : 'ko', // 한국어
 		time_24hr : true, // 24시간 형태
-		disableMobile : true
-	// 모바일 지원 
+		disableMobile : true	// 모바일 지원 
 	});
 </script>
 

@@ -15,4 +15,7 @@ public interface QnaService {
 	// qna 질문쓰기
 	void insertQna(QnaVO vo);
 	
+	// qna 답변하기
+	void qna_Answer(QnaVO vo);
+	
 }

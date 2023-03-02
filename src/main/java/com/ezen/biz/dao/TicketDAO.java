@@ -23,10 +23,18 @@ public class TicketDAO {
 	
 	
 	
-	// 예매 등록
-	public void insertTicket(TicketVO vo) {
+	// 예매 등록 (tseq 즉시 반환)
+	public int insertTicket(TicketVO vo) {
 		
 		mybatis.insert("ticketMapper.insertTicket", vo);
+		
+		return vo.getTseq();
+	}
+	
+	// 예매 등록 후 tseq값으로 예매정보 가져오기
+	public TicketVO completeTicket(TicketVO vo) {
+		
+		return mybatis.selectOne("ticketMapper.completeTicket", vo);
 	}
 	
 	// 예매시 좌석수 증가

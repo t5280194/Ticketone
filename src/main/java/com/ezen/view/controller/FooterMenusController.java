@@ -1,6 +1,5 @@
 package com.ezen.view.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -94,6 +93,26 @@ public class FooterMenusController {
 			return "redirect:qna_List"; // qna등록 되었으니, 다시 qna_List.jsp호출
 		}
 
+	}
+	
+	// qna 답변하기 업데이트
+	@RequestMapping(value="qna_Answer", method= RequestMethod.POST)
+	public String qna_AnswerAction(QnaVO vo, Model model, HttpSession session) {
+		
+		// 관리자 로그인 여부 확인
+		/*UserVO loginAdmin = (UserVO) session.getAttribute("loginUser");
+		System.out.println(">>>>>>>qna_Answer컨트롤러 loginAdmin : "+ loginAdmin);
+		
+		if (loginAdmin == null) {
+			model.addAttribute("msg", "관리자 로그인이 필요합니다.");
+		} else {
+			qnaService.qna_Answer(vo);
+				
+		}
+		*/
+		qnaService.qna_Answer(vo);
+		System.out.println(">>>>>>>qna_Answer컨트롤러 : "+ vo);
+		return "redirect:qna_List";	// qnaDetail.jsp 호출
 	}
 
 }

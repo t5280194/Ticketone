@@ -32,4 +32,10 @@ public class QnaDAO {
 		
 		mybatis.insert("qnaMapper.insertQna", vo);
 	}
+	
+	// qna 답변하기
+	public void qna_Answer(QnaVO vo) {
+		
+		mybatis.update("qnaMapper.qna_Answer", vo);
+	}
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
-<body>
+
 <!--qna list 시작-->
 <div class="d-flex justify-content-center">
   <div class="card" style="background-color: transparent; color: white; width: 50rem; margin: 1rem;">
@@ -31,6 +31,18 @@
           <c:out value="${qnaSearchKeyword}"/>
           <div>
           <c:choose>
+            	<c:when test="${empty sessionScope.loginUser}">
+         		    <a type="button" class="btn btn-sm " href="login_form" style="width:5rem;  background-color: #40B2FF;">질문하기</a>
+            	</c:when>
+            	<c:when test="${loginUser.admin_id != null}">
+            		
+            	</c:when>
+            	<c:otherwise>
+            		<a type="button" class="btn btn-sm " href="qna_Write" style="width:5rem;  background-color: #40B2FF;">질문하기</a>
+            	</c:otherwise>
+            </c:choose>
+            <!-- 
+          <c:choose>
           	<c:when test="${empty sessionScope.loginUser}">
           	<a type="button" class="btn btn-sm " href="login_form" style="width:5rem;  background-color: #40B2FF;">질문하기</a>
           	</c:when>
@@ -38,6 +50,7 @@
           	<a type="button" class="btn btn-sm " href="qna_Write" style="width:5rem;  background-color: #40B2FF;">질문하기</a>
           	</c:when>
           </c:choose>
+          -->
           </div>
       </div>
         
@@ -52,19 +65,53 @@
             </tr>
           </thead>
           <tbody>
-	          <c:forEach items="${qnaList}" var="qnaVO">
-	            <tr>
-	              <th scope="row">
-	              <c:choose>
-	              	<c:when test="${qnaVO.qna_check == '0'}">답변대기</c:when>
-	              	<c:when test="${qnaVO.qna_check == '1'}">답변완료</c:when>
-	              </c:choose>
-	              </th>
-	              <td><c:out value="${qnaVO.user_id}"/></td>
-	              <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.qna_indate}"/></td>
-	              <td><a href="qna_Detail?qseq=${qnaVO.qseq}"><c:out value="${qnaVO.qna_subject}"/></a></td>
-	            </tr>
+	          <c:choose>
+	            	<c:when test="${empty sessionScope.loginUser}">	<!-- 로그인 안했으면 -->
+	         		      <c:forEach items="${qnaList}" var="qnaVO">
+				            <tr onclick="location.href='login_form'" style="cursor: pointer;">
+				              <th scope="row">
+				              <c:choose>
+				              	<c:when test="${qnaVO.qna_check == '0'}">답변대기</c:when>
+				              	<c:when test="${qnaVO.qna_check == '1'}">답변완료</c:when>
+				              </c:choose>
+				              </th>
+				              <td><c:out value="${qnaVO.user_id}"/></td>
+				              <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.qna_indate}"/></td>
+				              <td><c:out value="${qnaVO.qna_subject}"/></td>
+				            </tr>
 	          </c:forEach>
+	            	</c:when>
+	            	<c:when test="${loginUser.admin_id != null}">	<!-- 관리자면 -->
+	            		  <c:forEach items="${qnaList}" var="qnaVO">
+				            <tr onclick="location.href='qna_Detail?qseq=${qnaVO.qseq}'" style="cursor: pointer;">
+				              <th scope="row">
+				              <c:choose>
+				              	<c:when test="${qnaVO.qna_check == '0'}">답변대기</c:when>
+				              	<c:when test="${qnaVO.qna_check == '1'}">답변완료</c:when>
+				              </c:choose>
+				              </th>
+				              <td><c:out value="${qnaVO.user_id}"/></td>
+				              <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.qna_indate}"/></td>
+				              <td><c:out value="${qnaVO.qna_subject}"/></td>
+				            </tr>
+				          </c:forEach>
+	            	</c:when>
+	            	<c:otherwise>	<!-- 유저로그인이면 -->
+		            		<c:forEach items="${qnaList}" var="qnaVO">
+					            <tr onclick="location.href='qna_Detail?qseq=${qnaVO.qseq}'" style="cursor: pointer;">
+					              <th scope="row">
+					              <c:choose>
+					              	<c:when test="${qnaVO.qna_check == '0'}">답변대기</c:when>
+					              	<c:when test="${qnaVO.qna_check == '1'}">답변완료</c:when>
+					              </c:choose>
+					              </th>
+					              <td><c:out value="${qnaVO.user_id}"/></td>
+					              <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${qnaVO.qna_indate}"/></td>
+					              <td><c:out value="${qnaVO.qna_subject}"/></td>
+					            </tr>
+					          </c:forEach>
+	            	</c:otherwise>
+	              </c:choose>
             
           </tbody>
         </table>

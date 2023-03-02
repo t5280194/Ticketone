@@ -26,5 +26,8 @@ public class UserVO {
 	private Date user_birth;
 	private String user_gender;
 	private Timestamp regdate;
+	
+	private String admin_id;
+    private String admin_password;
 }
 

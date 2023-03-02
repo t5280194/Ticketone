@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="replyMapper">
 	
+	<!-- 관리자 댓글 관리  -->
+	<select id="replyList" resultType="reply">
+		SELECT p.play_name, r.play_pseq, r.reply_pseq, r.reply_date, r.user_name, r.reply_star, r.reply_content
+		FROM reply r, play p
+		WHERE r.play_pseq = p.play_pseq
+		<if test='replySearchCondition=="play_name"'>
+			AND p.play_name LIKE '%'||#{replySearchKeyword}||'%'
+		</if>
+		<if test='replySearchCondition=="user_name"'>
+			AND r.user_name LIKE '%'||#{replySearchKeyword}||'%'
+		</if>
+		<if test='replySearchCondition=="reply_content"'>
+			AND r.reply_content LIKE '%'||#{replySearchKeyword}||'%'
+		</if>
+		ORDER BY r.reply_date DESC
+	</select>
+	
+	<!-- 관리자 댓글 삭제 -->
+	<delete id="adminReplyDelete" parameterType="reply">
+		DELETE reply WHERE reply_pseq=#{reply_pseq}
+	</delete>
+	
 	<insert id="insertReply" parameterType="reply">
 		INSERT INTO reply (reply_pseq, play_pseq, user_name, reply_content, reply_star)
 		VALUES (reply_pseq.NEXTVAL, #{play_pseq}, #{user_name}, #{reply_content}, #{reply_star})

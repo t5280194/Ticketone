@@ -7,21 +7,22 @@
             font-weight: bold;
         }
         
-        .next {
+        /*.next {
         	border: 1px solid black;
         	float: right;
         	margin:0 auto;
-        }
+        }*/
         
         .side {
-        	display: inline-block;
-            border: 1px solid black;
+        	/*display: inline-block;*/
+            /*border: 1px solid black;*/
             width: 360px;
-            padding: 10px;
-            float: right;
+            min-width: 350px;
+            /*padding: 10px;*/
+            /*float: right;*/
         }
         
-        
+        /*
         table#ticket_info {
             border-collapse:collapse;
             border-top: 2px solid  #333;    
@@ -29,7 +30,9 @@
             margin-top: -15px;
             margin-bottom: 20px;
         }
-
+        */
+        
+        /*
         table#ticket_info th {
             background-color: gray;
             border-bottom: 1px solid rgb(167, 167, 167);
@@ -42,4 +45,5 @@
             text-align: left;
             width: 210px;
         }
+        */
         

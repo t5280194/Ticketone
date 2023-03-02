@@ -32,6 +32,13 @@
     	VALUES(qseq.NEXTVAL, #{user_id}, #{qna_subject}, #{qna_content})
 	
 	</select>
+	
+	<!-- qna 답변하기 -->
+	<update id="qna_Answer">
+		UPDATE qna SET ANSWER_SUBJECT = #{answer_subject}, ANSWER_CONTENT = #{answer_content},
+		ANSWER_INDATE = SYSTIMESTAMP, QNA_CHECK = 1
+		WHERE qseq = #{qseq}
+	</update>
 
 
 </mapper>

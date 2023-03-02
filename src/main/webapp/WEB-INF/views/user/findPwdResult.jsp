@@ -11,7 +11,8 @@
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="user/user.js"></script>
+<!-- <script type="text/javascript" src="user/user.js" charset="UTF-8"></script>--><!-- utf-8추가 -->
+<script type="text/javascript" src="user.js"></script><!-- 위치 -->
 <style type="text/css">
 body{   
   background-color:#B96DB5;
@@ -54,5 +55,28 @@ function idok(){
   </form>
 </div>  
 </body>
+<script type="text/javascript">
+/*
+** 비밀번호 변경
+*/
+function changePassword() {
+	if ($("#user_password").val() == "") {
+		alert("새 비밀번호를 입력해 주세요.");
+		$("#user_password").focus();
+		return false;
+	} else if ($("#user_password").val() != $("#pwdcheck").val()) {
+		$("#user_password").focus();
+		alert("비밀번호가 맞지 않습니다. 다시 입력해 주세요");
+	} else {
+		$("#pwd_form").action = "change_pwd";
+		$("#pwd_form").submit();
+		alert("변경된 비밀번호로 다시 로그인 하세요..");
+	}
+}
+</script>
 </html>
+
+
+
+
 <%@ include file="../footer.jsp" %>

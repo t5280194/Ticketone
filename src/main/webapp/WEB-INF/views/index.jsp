@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
-<script type="text/javascript" src="user/user.js"></script>
 <!-- 예매순 공연 추천 시작 케러셀-->
 <div class="d-flex justify-content-center">
   <div id="carouselExampleIndicators" style="width:18.5rem; margin:40px" class="carousel slide" data-bs-ride="carousel">
@@ -49,10 +48,9 @@
           <div class="card-body">
             <p class="card-text">${playVO.play_name}</p>
             <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-              </div>
+              
+                <a type="button" style="min-width:6rem;" href="play_detail?play_pseq=${playVO.play_pseq}" class="btn btn-sm btn-outline-secondary">공연 정보</a>
+              
               <small class="text-muted text-end" >${playVO.play_date}</small>
             </div>
           </div>

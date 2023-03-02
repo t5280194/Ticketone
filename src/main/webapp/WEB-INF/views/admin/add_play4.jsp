@@ -5,7 +5,6 @@
 #vip {
     color: #660ff1;
   }
-
   #s {
     color: #188754;
   }
@@ -45,13 +44,20 @@
           <div class="row">
             <div class="col">
               <label class="form-label" for="rounded float-start" style="margin: 1rem 1rem 0rem 1rem;">${theaterVO.theater_name} 좌석도</label><br>
-              <img src="images/site/seat1.PNG" class="rounded float-start" style="margin: 1rem;" alt="공연장1 좌석도">
+              <c:choose>
+              	<c:when test="${theater_id == 1}"><img src="images/site/theater1.png" class="rounded float-start" style="width: 35rem; margin: 1rem;" alt="하늘대공연장 좌석도"></c:when>
+              	<c:when test="${theater_id == 2}"><img src="images/site/theater2.png" class="rounded float-start" style="width: 35rem; margin: 1rem;" alt="스타콘서트홀 좌석도"></c:when>
+              	<c:when test="${theater_id == 3}"><img src="images/site/theater3.png" class="rounded float-start" style="width: 35rem; margin: 1rem;" alt="서울예술극장 좌석도"></c:when>
+              	<c:when test="${theater_id == 4}"><img src="images/site/theater4.png" class="rounded float-start" style="width: 35rem; margin: 1rem;" alt="상상극장 좌석도"></c:when>
+              	<c:when test="${theater_id == 5}"><img src="images/site/theater5.png" class="rounded float-start" style="width: 35rem; margin: 1rem;" alt="희망소극장 좌석도"></c:when>
+              </c:choose>
+              
             </div>
             <div class="col">
               <form id="add_play4" action="add_play4" method="POST">
               <!-- hidden으로 play_pseq값 넘겨준다. -->
-              <input type="text" name="play_pseq" value="${play_pseq}">
-              <input type="text" name="theater_id" value="${theater_id}">
+              <input type="hidden" name="play_pseq" value="${play_pseq}">
+              <input type="hidden" name="theater_id" value="${theater_id}">
               <label class="form-label" style="margin: 1rem 1rem 0rem 1rem;">좌석등급별 가격 설정</label>
               <div class="input-group mb-3" style="width: 14rem; margin:1rem" >
                 <span class="input-group-text fw-bold" id="vip" style="width:6rem">VIP ${theaterVO.seat_vip}석</span>

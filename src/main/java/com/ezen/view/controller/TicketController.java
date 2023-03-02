@@ -35,12 +35,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ezen.biz.dto.ScheduleVO;
 import com.ezen.biz.dto.TheaterVO;
 import com.ezen.biz.dto.TicketVO;
+import com.ezen.biz.dto.UserVO;
 import com.ezen.biz.discount.DiscountService;
 import com.ezen.biz.dto.DiscountVO;
 import com.ezen.biz.dto.PlayVO;
 import com.ezen.biz.play.PlayService;
 import com.ezen.biz.ticket.TicketService;
-
 
 @Controller
 public class TicketController {
@@ -58,7 +58,16 @@ public class TicketController {
 	 * 공연 날짜 조회 및 달력 구현
 	 */
 	@RequestMapping(value="/book_ticket1", method=RequestMethod.GET)
-	public String ticketBookDate(PlayVO vo, Model model) {
+	public String ticketBookDate(PlayVO vo, Model model, HttpServletRequest request, HttpSession session) {
+		
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		if(loginUser == null) {
+			//JOptionPane msg = new JOptionPane();
+			//msg.showMessageDialog(null, "로그인을 하세요.");
+			//showMessageDialog(null, "로그인을 하세요.");
+			
+			return "redirect:login_form";
+		}
 		
 		PlayVO play = playservice.getPlay(vo);
 		model.addAttribute("PlayVO", play);
@@ -71,12 +80,12 @@ public class TicketController {
 		
 		// 공연 날짜 조회
 		List<ScheduleVO> playScheduleList = playservice.getPlayScheduleList(pseq);
-		System.out.println("playScheduleList: "+ playScheduleList);
 		
 		// 날짜값 배열 생성
 		Date date[] = new Date[playScheduleList.size()];
 		String play_month[] = new String[playScheduleList.size()];
 		String play_day[] = new String[playScheduleList.size()];
+		String play_date[] = new String[playScheduleList.size()];
 		
 		// 날짜값 포맷 및 배열 넣기
 		for(int i=0; i<playScheduleList.size(); i++) {
@@ -90,39 +99,59 @@ public class TicketController {
 			SimpleDateFormat day = new SimpleDateFormat("dd");
 			play_day[i] = day.format(date[i]);
 			
-			SimpleDateFormat time = new SimpleDateFormat("HH:mm");
-			String play_time = time.format(date[i]);
+			SimpleDateFormat trans = new SimpleDateFormat("MM-dd");
+			play_date[i] = trans.format(date[i]);
+			
+			//System.out.println(play_month[i] + "월" + play_day[i] + "일" + play_time);
 			
 		};
+		
 		// 중복 날짜 제거
 		LinkedHashSet<String> monthList = new LinkedHashSet<>(Arrays.asList(play_month));	// LinkedHashSet으로 변환하여 중복값 제거
 		String[] Play_month = monthList.toArray(new String[0]);	// LinkedHashSet을 다시 배열로 변환
 		LinkedHashSet<String> dayList = new LinkedHashSet<>(Arrays.asList(play_day));
 		String[] Play_day = dayList.toArray(new String[0]);
+		LinkedHashSet<String> dateList = new LinkedHashSet<>(Arrays.asList(play_date));
+		String[] Play_date = dateList.toArray(new String[0]);
 		
 		model.addAttribute("Play_month", Play_month);
-		System.out.println(Arrays.toString(Play_month));
+		//System.out.println(Arrays.toString(Play_month));
 		model.addAttribute("Play_day", Play_day);
-		System.out.println(Arrays.toString(Play_day));
-		/*
-		for(int i=0; i<Play_month.length; i++) {
-			System.out.println(Play_month[i]);
-			System.out.println(Play_day[i]);
-		}
-		*/
+		//System.out.println(Arrays.toString(Play_day));
+		model.addAttribute("Play_date", Play_date);
+		System.out.println(Arrays.toString(Play_date));
+		
+		
 		// 현재 달력 날짜 출력
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;	// 1월=0, 12월=11
 		int day = cal.get(Calendar.DATE);
-		int lastDate = cal.getActualMaximum(Calendar.DATE);	// 현재 달의 마지막 날짜
+		//int lastDate = cal.getActualMaximum(Calendar.DATE);	// 현재 달의 마지막 날짜
+		
+		if(request.getParameter("month")!=null) {
+			year = Integer.parseInt(request.getParameter("year"));
+			month = Integer.parseInt(request.getParameter("month"));
+			
+			if(month == 12) {
+				year++;
+				month=0;
+			}
+			if(month==-1) {
+				year--;
+				month=11;
+			}
+		}
+		
+		Calendar firstOfMonth = Calendar.getInstance();
+		firstOfMonth.set(Calendar.YEAR, year);	
+		firstOfMonth.set(Calendar.MONTH, month-1);
+		firstOfMonth.set(Calendar.DATE, 1);	// 현재 달의 첫 날짜(1일)로 설정
+		int firstDate = firstOfMonth.get(Calendar.DAY_OF_WEEK);		// 첫 요일값(일:1, 월:2, 화:3...)
+		int lastDate = firstOfMonth.getActualMaximum(Calendar.DATE);// 마지막 날짜
 		
 		System.out.println("오늘 날짜: " + year + "년" + month + "월" + day + "일");
 		System.out.println("이번 달 말일: " + lastDate + "일");
-		
-		Calendar firstOfMonth = Calendar.getInstance();
-		firstOfMonth.set(Calendar.DATE, 1);	// 현재 달의 첫 날짜(1일)로 설정
-		int firstDate = firstOfMonth.get(Calendar.DAY_OF_WEEK);	// 첫 요일값(일:1, 월:2, 화:3...)
 		System.out.println("오늘 요일: " + firstDate + " 요일");
 		
 		model.addAttribute("year", year);
@@ -133,6 +162,8 @@ public class TicketController {
 		return "ticketBook/ticketBook1";
 	}
 	
+	
+	/*// 이전 페이지 이동
 	@GetMapping(value="/back_to_ticket1")
 	public String backTicketDate(PlayVO pvo, Model model, HttpSession session) {
 		PlayVO play = playservice.getPlay(pvo);
@@ -140,7 +171,7 @@ public class TicketController {
 		model.addAttribute("Play", play);
 		
 		return "redirect:book_ticket1";
-	};
+	};*/
 	
 	/*
 	 * 공연 각 날짜의 회차(시간) 정보 조회	
@@ -158,19 +189,18 @@ public class TicketController {
 		
 		Date date[] = new Date[ScheduleList.size()];
 		String play_time[] = new String[ScheduleList.size()];
-		String play_day[] = new String[ScheduleList.size()];
+		//String play_day[] = new String[ScheduleList.size()];
 		
 		for(int i=0; i<ScheduleList.size(); i++) {
 			ScheduleVO schedule = ScheduleList.get(i);
 			date[i]=schedule.getPlay_schedule();
 
-			SimpleDateFormat transday = new SimpleDateFormat("dd");
-			play_day[i] = transday.format(date[i]);
-			String playDay = play_day[i].replaceFirst("^0", "");
-			System.out.println("playDay=" + playDay);
+			SimpleDateFormat transday = new SimpleDateFormat("MM-dd");
+			String play_day = transday.format(date[i]);
+			//String playDay = play_day[i].replaceFirst("^0", "");
+			System.out.println("playDay=" + play_day);
 			
-			
-			if(playDay.equals(day)) {
+			if(play_day.equals(day)) {
 				SimpleDateFormat transtime = new SimpleDateFormat("HH:mm");
 				play_time[i] = transtime.format(date[i]);
 				System.out.println(play_time[i]);
@@ -181,7 +211,7 @@ public class TicketController {
 		timeList.removeIf(Objects::isNull);	// 리스트의 모든 null값 제거
 		String[] Play_time = timeList.toArray(new String[0]);	// 리스트 -> 배열
 		
-		System.out.println(Arrays.toString(Play_time));
+		System.out.println("추출된 시간" + Arrays.toString(Play_time));
 		
 		return Play_time;
 	}
@@ -191,7 +221,7 @@ public class TicketController {
 	 */
 	@RequestMapping(value="/get_seat", method=RequestMethod.POST)
 	@ResponseBody
-	public List<ScheduleVO> ViewSeatInfo(Model model, PlayVO vo, ScheduleVO schedulevo, HttpServletRequest request) {
+	public List<ScheduleVO> ViewSeatInfo(Model model, PlayVO vo, ScheduleVO svo, HttpServletRequest request) {
 		
 		//String name = request.getParameter("name");
 		int seq = Integer.parseInt(request.getParameter("seq"));
@@ -211,24 +241,55 @@ public class TicketController {
 			ScheduleVO schedule = ScheduleList.get(i);
 			date[i]=schedule.getPlay_schedule();
 			
-			SimpleDateFormat transday = new SimpleDateFormat("dd");
-			String playDay = transday.format(date[i]).replaceFirst("^0", "");
+			SimpleDateFormat transday = new SimpleDateFormat("MM-dd");
+			String playDay = transday.format(date[i]);
 			SimpleDateFormat transtime = new SimpleDateFormat("HH:mm");
 			String playTime = transtime.format(date[i]);
 			
 			if(playDay.equals(day) && playTime.equals(time)) {
-				sseq = playservice.getScheduleSeq(date[i]);
-				System.out.println("스케줄 번호:" + sseq);
+				svo.setPlay_pseq(seq);
+				svo.setPlay_schedule(date[i]);
+				sseq = playservice.getScheduleSeq(svo);
+				System.out.println("Schedule_seq: " + sseq);
 			};
 		};
-		
+		/*
+		// 공연의 극장ID로 해당극장의 전체 좌석 조회
+		List<TheaterVO> theater = playservice.getTotalSeat(seq);
+		TheaterVO totalSeat = theater.get(0);
+		System.out.println("전체 좌석:" + totalSeat);
+		*/
 		// 조회한 스케줄 번호로 예매 좌석 조회
 		List<ScheduleVO> bookSeat = playservice.getBookSeat(sseq);
 		System.out.println("예매 좌석:" + bookSeat);
 
 		return bookSeat;
 	};
-
+	/*
+	@RequestMapping(value="/save_date", method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView SaveDateInfo(Model model, ScheduleVO schedulevo, HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		schedulevo.setSchedule_seq(seq);
+		
+		ScheduleVO schedule = playservice.getSchedule(schedulevo);
+		model.addAttribute("Schdule", schedule);
+		System.out.println(schedule);
+		
+		Date playDate = schedule.getPlay_date();
+		System.out.println("공연 일정: " + playDate);
+		model.addAttribute("PlayDate", playDate);
+		mav.addObject("Schdule", schedule);
+		mav.addObject("PlayDate", playDate);
+		System.out.println("ModelAndView: " +mav);
+		
+		return mav;
+	};
+	*/
+	
 	
 	@RequestMapping(value="/book_ticket2", method=RequestMethod.GET)
 	public String ticketBookSeat(PlayVO pvo, ScheduleVO svo, TicketVO tvo, Model model) {
@@ -246,7 +307,7 @@ public class TicketController {
 		tvo.setSchedule_seq(schedule.getSchedule_seq());
 		List<String> bookSeat = ticketservice.getBookSeatID(tvo);
 		model.addAttribute("BookedSeat", bookSeat);
-		System.out.println("예매되어있는 좌석: "+ bookSeat);
+		System.out.println("예매되어있는 좌석"+ bookSeat);
 		
 		return "ticketBook/ticketBook2";
 	};
@@ -264,7 +325,7 @@ public class TicketController {
 		model.addAttribute("DiscountList", discountList);
 		
 		String discount_ID = play.getDiscount_info();
-		System.out.println("적용되는 할인: " + discount_ID);
+		System.out.println("적용되는 할인 : " + discount_ID);
 		
 		model.addAttribute("Discount_ID", discount_ID);
 		
@@ -472,7 +533,16 @@ public class TicketController {
 	@RequestMapping(value="/book_ticket5", method=RequestMethod.POST)
 	public String ticketCofirm(@RequestParam MultiValueMap<String, String> multi,
 								@RequestParam HashMap<String, Object> hash, 
-								PlayVO pvo, ScheduleVO svo, TheaterVO tvo, DiscountVO dvo, TicketVO vo, Model model, HttpServletRequest request){
+								PlayVO pvo, ScheduleVO svo, TheaterVO tvo, DiscountVO dvo, TicketVO vo,
+								Model model, HttpServletRequest request, HttpSession session){
+		
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		System.out.println("loginUser: " + loginUser);
+		System.out.println("loginId: " + loginUser.getUser_id());
+		System.out.println("loginName: " + loginUser.getUser_name());
+		vo.setUser_id(loginUser.getUser_id());
+		vo.setUser_name(loginUser.getUser_name());
+		
 		PlayVO play = playservice.getPlay(pvo);
 		model.addAttribute("PlayVO", play);		
 		ScheduleVO schedule = playservice.getSchedule(svo);
@@ -483,7 +553,7 @@ public class TicketController {
 		SimpleDateFormat sch = new SimpleDateFormat("YYMMddHHmm");
 		String playSchedule = sch.format(schedule.getPlay_schedule());
 		
-		System.out.println("공연제목: "+ hash.get("play_name"));
+		System.out.println("공연제목 : "+ hash.get("play_name"));
 		System.out.println(play.getPlay_name());
 		System.out.println("공연번호: "+ hash.get("play_pseq"));
 		System.out.println("공연일정: "+ playSchedule);
@@ -499,7 +569,10 @@ public class TicketController {
 		vo.setPay_id(payID);
 		vo.setPay_name(payName);
 		
-		// VIP석 예매
+			
+		/*
+		 * VIP석 예매
+		 */
 		if(multi.get("VIP_seats") != null) {
 			System.out.println("VIP좌석: "+ multi.get("VIP_seats"));
 			
@@ -531,6 +604,8 @@ public class TicketController {
 						vo.setTicket_seat(multi.get("VIP_seats").get(temp));
 						vo.setDiscount_id(Integer.parseInt(Discounted_Vip_Id[j]));
 						
+						//discount.setDiscount_id(Discounted_Vip_Id[j]);
+						
 						int discounted = price - Integer.parseInt(multi.get("Discounted_Vip_Price").get(j));
 						System.out.println("할인된 가격: "+ discounted);
 						vo.setPay_amount(discounted);
@@ -539,10 +614,14 @@ public class TicketController {
 						vo.setTicket_id(ticketID);
 						System.out.println(ticketID);
 						
-						ticketservice.insertTicket(vo);
+						// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+						int tseq = ticketservice.insertTicket(vo);
+						vo.setTseq(tseq);
+						TicketVO completeTicket = ticketservice.completeTicket(vo);
+						model.addAttribute("ticket", completeTicket);
 						temp++;
 						
-					}else {													// 티켓매수가 2장 이상인 경우
+					}else {			// 티켓매수가 2장 이상인 경우
 						for(int c=1; c <= Integer.parseInt(Discounted_Vip_Amount[j]); c++) {
 							System.out.println("좌석: " + multi.get("VIP_seats").get(temp));
 							System.out.println("할인번호: " + Discounted_Vip_Id[j]);
@@ -553,7 +632,7 @@ public class TicketController {
 							vo.setTicket_seat(multi.get("VIP_seats").get(temp));
 							vo.setDiscount_id(Integer.parseInt(Discounted_Vip_Id[j]));
 							
-							int discounted = price - Integer.parseInt(multi.get("Discounted_Vip_Price").get(j));
+							int discounted = price - (Integer.parseInt(multi.get("Discounted_Vip_Price").get(j)) / Integer.parseInt(Discounted_Vip_Amount[j]));
 							System.out.println("할인된 가격: "+ discounted);
 							vo.setPay_amount(discounted);
 							
@@ -561,7 +640,11 @@ public class TicketController {
 							System.out.println(ticketID2);
 							vo.setTicket_id(ticketID2);
 							
-							ticketservice.insertTicket(vo);
+							// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+							int tseq = ticketservice.insertTicket(vo);
+							vo.setTseq(tseq);
+							TicketVO completeTicket = ticketservice.completeTicket(vo);
+							model.addAttribute("ticket", completeTicket);
 							temp++;
 						}
 					}
@@ -583,11 +666,15 @@ public class TicketController {
 						ticketID_temp += multi.get("VIP_seats").get(i).replace("_", "");
 						vo.setTicket_id(ticketID_temp);
 						
-						ticketservice.insertTicket(vo);
+						// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+						int tseq = ticketservice.insertTicket(vo);
+						vo.setTseq(tseq);
+						TicketVO completeTicket = ticketservice.completeTicket(vo);
+						model.addAttribute("ticket", completeTicket);
 					}
 				}
 			}
-			// VIP석 할인이 적용되지 않았을때
+			// VIP석 할인이 적용되지 않았을 때
 			else {
 				String ticketID = "T" + play.getTheater_id() + playSchedule;
 				
@@ -603,13 +690,19 @@ public class TicketController {
 					ticketID_temp += multi.get("VIP_seats").get(i).replace("_", "");
 					vo.setTicket_id(ticketID_temp);
 					
-					ticketservice.insertTicket(vo);
+					// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+					int tseq = ticketservice.insertTicket(vo);
+					vo.setTseq(tseq);
+					TicketVO completeTicket = ticketservice.completeTicket(vo);
+					model.addAttribute("ticket", completeTicket);
 				}
 			}
 		}
+
 		
-		
-		// S석 예매
+		/*
+		 * S석 예매
+		 */
 		if(multi.get("S_seats") != null) {
 			System.out.println("S좌석: "+ multi.get("S_seats"));
 			
@@ -649,10 +742,14 @@ public class TicketController {
 						vo.setTicket_id(ticketID);
 						System.out.println(ticketID);
 						
-						ticketservice.insertTicket(vo);
+						// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+						int tseq = ticketservice.insertTicket(vo);
+						vo.setTseq(tseq);
+						TicketVO completeTicket = ticketservice.completeTicket(vo);
+						model.addAttribute("ticket", completeTicket);
 						temp++;
 						
-					}else {													// 티켓매수가 2장 이상인 경우
+					}else {									// 티켓매수가 2장 이상인 경우
 						for(int c=1; c <= Integer.parseInt(Discounted_S_Amount[j]); c++) {
 							System.out.println("좌석: " + multi.get("S_seats").get(temp));
 							System.out.println("할인번호: " + Discounted_S_Id[j]);
@@ -663,7 +760,7 @@ public class TicketController {
 							vo.setTicket_seat(multi.get("S_seats").get(temp));
 							vo.setDiscount_id(Integer.parseInt(Discounted_S_Id[j]));
 							
-							int discounted = price - Integer.parseInt(multi.get("Discounted_S_Price").get(j));
+							int discounted = price - (Integer.parseInt(multi.get("Discounted_S_Price").get(j)) / Integer.parseInt(Discounted_S_Amount[j]));
 							System.out.println("할인된 가격: "+ discounted);
 							vo.setPay_amount(discounted);
 							
@@ -671,7 +768,11 @@ public class TicketController {
 							System.out.println(ticketID2);
 							vo.setTicket_id(ticketID2);
 							
-							ticketservice.insertTicket(vo);
+							// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+							int tseq = ticketservice.insertTicket(vo);
+							vo.setTseq(tseq);
+							TicketVO completeTicket = ticketservice.completeTicket(vo);
+							model.addAttribute("ticket", completeTicket);
 							temp++;
 						}
 					}
@@ -693,7 +794,11 @@ public class TicketController {
 						ticketID_temp += multi.get("S_seats").get(i).replace("_", "");
 						vo.setTicket_id(ticketID_temp);
 						
-						ticketservice.insertTicket(vo);
+						// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+						int tseq = ticketservice.insertTicket(vo);
+						vo.setTseq(tseq);
+						TicketVO completeTicket = ticketservice.completeTicket(vo);
+						model.addAttribute("ticket", completeTicket);
 					}
 				}
 			}
@@ -713,14 +818,21 @@ public class TicketController {
 					ticketID_temp += multi.get("S_seats").get(i).replace("_", "");
 					vo.setTicket_id(ticketID_temp);
 					
-					ticketservice.insertTicket(vo);
+					// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+					int tseq = ticketservice.insertTicket(vo);
+					vo.setTseq(tseq);
+					TicketVO completeTicket = ticketservice.completeTicket(vo);
+					model.addAttribute("ticket", completeTicket);
 				}
 			}
 		}
 
-		// A석 예매
+		
+		/*
+		 * A석 예매
+		 */
 		if(multi.get("A_seats") != null) {
-			System.out.println("A좌석: "+ multi.get("A_seats"));
+			System.out.println("A�¼�: "+ multi.get("A_seats"));
 			
 			System.out.println("현재 A좌석수: " + schedule.getA_count());
 			int addedSeat = schedule.getA_count() + multi.get("A_seats").size();
@@ -742,7 +854,7 @@ public class TicketController {
 				for(int j=0; j<Discounted_A_Id.length; j++) {
 					String ticketID = "T" + play.getTheater_id() + playSchedule;
 					
-					if(Integer.parseInt(Discounted_A_Amount[j]) == 1) {	// 티켓매수가 1장뿐일 경우
+					if(Integer.parseInt(Discounted_A_Amount[j]) == 1) {	// Ƽ�ϸż��� 1����� ���
 						System.out.println("좌석: " + multi.get("A_seats").get(temp));	
 						System.out.println("할인번호: " + Discounted_A_Id[j]);
 						System.out.println("할인적용: " + Discounted_A_Name[j]);
@@ -758,10 +870,14 @@ public class TicketController {
 						vo.setTicket_id(ticketID);
 						System.out.println(ticketID);
 						
-						ticketservice.insertTicket(vo);
+						// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+						int tseq = ticketservice.insertTicket(vo);
+						vo.setTseq(tseq);
+						TicketVO completeTicket = ticketservice.completeTicket(vo);
+						model.addAttribute("ticket", completeTicket);
 						temp++;
 						
-					}else {													// 티켓매수가 2장 이상인 경우
+					}else {									// 티켓매수가 2장 이상인 경우
 						for(int c=1; c <= Integer.parseInt(Discounted_A_Amount[j]); c++) {
 							System.out.println("좌석: " + multi.get("A_seats").get(temp));
 							System.out.println("할인번호: " + Discounted_A_Id[j]);
@@ -772,7 +888,7 @@ public class TicketController {
 							vo.setTicket_seat(multi.get("A_seats").get(temp));
 							vo.setDiscount_id(Integer.parseInt(Discounted_A_Id[j]));
 							
-							int discounted = price - Integer.parseInt(multi.get("Discounted_A_Price").get(j));
+							int discounted = price - (Integer.parseInt(multi.get("Discounted_A_Price").get(j)) / Integer.parseInt(Discounted_A_Amount[j]));
 							System.out.println("할인된 가격: "+ discounted);
 							vo.setPay_amount(discounted);
 							
@@ -780,7 +896,11 @@ public class TicketController {
 							System.out.println(ticketID2);
 							vo.setTicket_id(ticketID2);
 							
-							ticketservice.insertTicket(vo);
+							// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+							int tseq = ticketservice.insertTicket(vo);
+							vo.setTseq(tseq);
+							TicketVO completeTicket = ticketservice.completeTicket(vo);
+							model.addAttribute("ticket", completeTicket);
 							temp++;
 						}
 					}
@@ -802,7 +922,11 @@ public class TicketController {
 						ticketID_temp += multi.get("A_seats").get(i).replace("_", "");
 						vo.setTicket_id(ticketID_temp);
 						
-						ticketservice.insertTicket(vo);
+						// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+						int tseq = ticketservice.insertTicket(vo);
+						vo.setTseq(tseq);
+						TicketVO completeTicket = ticketservice.completeTicket(vo);
+						model.addAttribute("ticket", completeTicket);
 					}
 				}
 			}
@@ -822,10 +946,16 @@ public class TicketController {
 					ticketID_temp += multi.get("A_seats").get(i).replace("_", "");
 					vo.setTicket_id(ticketID_temp);
 					
-					ticketservice.insertTicket(vo);
+					// 티켓 입력 & tseq 반환받음 (조호성 추가 4줄)
+					int tseq = ticketservice.insertTicket(vo);
+					vo.setTseq(tseq);
+					TicketVO completeTicket = ticketservice.completeTicket(vo);
+					model.addAttribute("ticket", completeTicket);
+					
 				}
 			}
 		}
+		
 		
 		return "ticketBook/ticketBook5";
 	}

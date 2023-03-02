@@ -17,15 +17,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezen.biz.admin.AdminService;
 import com.ezen.biz.dto.PlayVO;
+import com.ezen.biz.dto.ReplyVO;
 import com.ezen.biz.dto.ScheduleVO;
 import com.ezen.biz.dto.TheaterVO;
 import com.ezen.biz.dto.TicketVO;
+import com.ezen.biz.reply.ReplyService;
 
 @Controller
 public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private ReplyService replyService;
 	
 	// 예매현황 보기
 	@RequestMapping(value="/ticketList")
@@ -41,6 +46,34 @@ public class AdminController {
 		System.out.println(ticketList);
 		
 		return "admin/ticketList";	//ticketList.jsp 호출
+	}
+	
+	// 댓글 관리
+	@RequestMapping(value="/replyList")
+	public String replyList(ReplyVO rvo, HttpSession session, Model model) {
+		// 관리자 로그인 여부 확인
+		
+		// 검색조건 있다면
+		if (rvo.getReplySearchCondition()==null) rvo.setReplySearchCondition("");
+		if (rvo.getReplySearchKeyword()==null) rvo.setReplySearchKeyword("");
+		System.out.println(">>>>>>>reply검색조건="+rvo.getReplySearchCondition());
+		System.out.println(">>>>>>>reply검색키워드="+rvo.getReplySearchKeyword());
+		
+		List<ReplyVO> replyList = replyService.replyList(rvo);
+		model.addAttribute("replyList", replyList);
+		System.out.println(">>>>>>>replyList컨트롤러 replyList : " + replyList);
+		
+		return "admin/replyList";	//replyList.jsp 호출
+	}
+	
+	// 관리자 댓글 삭제
+	@RequestMapping(value="adminReplyDelete")
+	public String adminReplyDelete(ReplyVO rvo, HttpSession session, Model model) {
+		// 관리자 로그인 여부 확인
+		
+		replyService.adminReplyDelete(rvo);
+		
+		return "redirect:replyList";	//ticketList.jsp 호출
 	}
 	
 	// 공연 등록하기 1/4 (기본정보)
@@ -189,7 +222,6 @@ public class AdminController {
 		model.addAttribute("play_pseq", play_pseq);
 		model.addAttribute("theater_id", theater_id);
 		model.addAttribute("theaterVO", theater);
-		System.out.println(">>>>>>>addplay3컨트롤러 vip가격 : " + theater.getSeat_vip());
 		return "admin/add_play4";
 	}
 	
@@ -228,7 +260,7 @@ public class AdminController {
 		
 		adminService.insertPlay4Temp(vo);	// play_temp4 서비스 호출
 		adminService.insertPlay(vo);	// play 서비스 호출
-		return "index";	// index.jsp 호출
+		return "redirect:index";	// index.jsp 호출
 	
 	}
 	

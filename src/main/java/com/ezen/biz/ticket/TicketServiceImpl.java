@@ -19,9 +19,16 @@ public class TicketServiceImpl implements TicketService {
 	
 	// 예매 등록
 	@Override
-	public void insertTicket(TicketVO vo) {
+	public int insertTicket(TicketVO vo) {
 		
-		tDao.insertTicket(vo);
+		return tDao.insertTicket(vo);
+	}
+	
+	// 예매 등록 후 tseq값으로 예매정보 가져오기
+	@Override
+	public TicketVO completeTicket(TicketVO vo) {
+		
+		return tDao.completeTicket(vo);
 	}
 
 	// 예매시 좌석수 증가

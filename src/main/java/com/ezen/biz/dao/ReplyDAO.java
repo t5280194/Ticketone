@@ -15,6 +15,20 @@ public class ReplyDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 		
+	// 관리자 댓글 관리
+	public List<ReplyVO> replyList(ReplyVO rvo) {
+		System.out.println("===> Mybatis로 replyList() 기능 처리");
+		
+		return mybatis.selectList("replyMapper.replyList", rvo);
+	}
+	
+	// 관리자 댓글 삭제
+	public void adminReplyDelete(ReplyVO rvo) {
+		System.out.println("===> Mybatis로 adminReplyDelete() 기능 처리");
+		
+		mybatis.delete("replyMapper.adminReplyDelete", rvo);
+	}
+	
 	//새 댓글 등록
 	public void insertReply(ReplyVO reply) {
 		System.out.println("===> Mybatis로 insertReply() 기능 처리");

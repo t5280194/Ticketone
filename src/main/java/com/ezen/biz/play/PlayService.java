@@ -31,7 +31,7 @@ public interface PlayService {
 	List<ScheduleVO> getPlayScheduleList(int pseq);
 	
 	// 스케쥴 번호 조회
-	int getScheduleSeq(Date date);
+	int getScheduleSeq(ScheduleVO vo);
 	
 	// 예매된 좌석수 조회
 	List<ScheduleVO> getBookSeat(int seq);

@@ -64,9 +64,9 @@ public class PlayServiceImpl implements PlayService {
 	
 	// 스케쥴 번호 조회
 	@Override
-	public int getScheduleSeq(Date date) {
+	public int getScheduleSeq(ScheduleVO vo) {
 		
-		return pDao.getScheduleSeq(date);
+		return pDao.getScheduleSeq(vo);
 	}
 	
 	// 예매된 좌석수 조회

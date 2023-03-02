@@ -71,8 +71,8 @@
       <div class="card-body">
       <form id="add_play2" action="add_play2" method="post"> 
       	<!-- hidden으로 play_pseq값 넘겨준다. -->
-      	<input type="text" name="play_pseq" value="${play_pseq}">
-      	<input type="text" name="theater_id" value="${theater_id}">
+      	<input type="hidden" name="play_pseq" value="${play_pseq}">
+      	<input type="hidden" name="theater_id" value="${theater_id}">
         <label class="form-label" style="margin: 1rem 1rem 0rem 1rem;">공연일시</label>
         <div class="page-content page-container" id="page-content" style="margin-top: 0.9rem;">
           <div class="padding">
@@ -102,7 +102,7 @@
                                                   
                                                 </div>
                                               </td>                                              
-                                              <td class="mt-10"><span class="badge bg-secondary"> 삭제</td>
+                                              <td class="mt-10"><span class="badge bg-secondary"><i class="fa fa-trash"></i>삭제</td>
                                           </tr>
                                       </tbody>
                                   </table>

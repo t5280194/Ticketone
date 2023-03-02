@@ -45,7 +45,8 @@
           <tbody>
           
             <c:forEach items="${ticketList}" var="ticketVO">
-	            <tr>
+	            <tr onclick="location.href='userTicket?tseq=${ticketVO.tseq}'" style="cursor: pointer;">
+            	
 	              <td><fmt:formatDate value="${ticketVO.buy_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	              <th scope="row"><c:out value="${ticketVO.play_name}"/></th>
 	              <td><c:out value="${ticketVO.user_name}"/></td>
@@ -63,6 +64,7 @@
 	              </td>
 	              <td><c:out value="${ticketVO.pay_name}"/></td>
 	              <td><c:out value="${ticketVO.pay_amount}"/></td>
+	            
 	            </tr>
            	</c:forEach>
 

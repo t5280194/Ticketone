@@ -5,16 +5,30 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="java.io.*, java.util.Date, java.util.Calendar, java.util.Enumeration" %>
 <%@ include file="../header.jsp" %>
-<header>
+<head>
+<meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
-<script type="text/javascript"><%@include file="user.js"%></script>
-</header>
+
+<script type="text/javascript" src="user.js"></script><!-- 위치 -->
+
+
+
+
+</head>
  <body>
-  <article>
+ 
+
+<!--card 시작-->
+<div class="d-flex justify-content-center">
+  <div class="card" style="background-color: transparent; color: white; max-width: 38rem; margin: 0.1rem;">
+    <span class="border border-white border border-2 rounded">
+      <div class="card-body">
+      			
+      			  <article>
     <h2 align="center">이용 약관</h2><hr>   
     <form id="join" action="join_form" method="post" name="formm" align="center">
-        <p style= color:white>언제나 새로운 즐거움이 가득한 Nonage의 회원가입 페이지 입니다.
-       TicketOne의 회원가입은 무료이며, 회원님의 개인신상에 관한 정보는 
+        <p style= color:white>언제나 새로운 즐거움이 가득한 Ticketone의 회원가입 페이지 입니다.
+       Ticketone의 회원가입은 무료이며, 회원님의 개인신상에 관한 정보는 
        ‘정보통신망이용촉진 및 정보보호등에관한법률’에 의해 회원님의 동의없이
          제 3자에게 제공되지 않으며, 철저히 보호되고 있사오니 안심하고 이용하시기 바랍니다.</p>
        <textarea class="form-control" rows="10" cols="100" disabled="disabled">
@@ -196,9 +210,33 @@
       <input type="radio" name="okon1" class="agree" checked> 동의함 &nbsp; &nbsp; &nbsp;
       <input type="radio" name="okon1" class="agree" checked> 동의안함
       </div><br><br>
-      <input type="button" value="다음" class="btn btn-sm btn-outline-secondary"  onclick="go_next()" style="float: center;">
-      <input type="button" value="취소" class="btn btn-sm btn-outline-secondary" onclick="location='../biz/index.html'">
+      <input type="button" value="다음" class="btn btn-sm btn-primary"  onclick="go_next()" style="float: center;">
+      <input type="button" value="취소" class="btn btn-sm btn-primary" onclick="location='../biz/index.html'">
     </form>
   </article>
+      			
+    	</div>
+    </span>
+  </div>
+</div>
+<!--card 끝-->
+
+<script type="text/javascript">
+/*
+ ** 약관 동의여부 확인
+ */
+function go_next() {
+	if (document.formm.okon1[0].checked == true) {  // 동의함 선택의 경우
+		document.formm.action = "join_form";
+		document.formm.submit();  // Controller로 전송
+	} else if (document.formm.okon1[1].checked == true) {
+		alert("약관에 동의하셔야 합니다!");
+	}
+}
+</script>
+
+
+
+
 </body>
 <%@ include file="../footer.jsp" %>  

@@ -1,10 +1,13 @@
 package com.ezen.biz.user;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezen.biz.dao.UserDAO;
+import com.ezen.biz.dto.TicketVO;
 import com.ezen.biz.dto.UserVO;
 
 
@@ -15,9 +18,9 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDao;
 	
 	@Override
-	public UserVO getMember(String id) {
+	public UserVO getMember(UserVO vo) {
 		
-		return userDao.getMember(id);
+		return userDao.getMember(vo);
 	}
 
 	@Override
@@ -78,5 +81,19 @@ public class UserServiceImpl implements UserService {
 	public int confirmID(String id) {
 		
 		return userDao.confirmID(id);
+	}
+
+	// 유저 티켓 목록 확인
+	@Override
+	public List<TicketVO> getuserTicketList(TicketVO tvo) {
+		
+		return userDao.getuserTicketList(tvo);
+	}
+
+	// 유저 티켓 상세 확인
+	@Override
+	public TicketVO getuserTicket(TicketVO tvo) {
+		
+		return userDao.getuserTicket(tvo);
 	}
 }

@@ -31,8 +31,8 @@
       <div class="card-body">
       <form id="add_play3" action="add_play3" method="POST" enctype="multipart/form-data">
       <!-- hidden으로 play_pseq값 넘겨준다. -->
-      <input type="text" name="play_pseq" value="${play_pseq}">
-      <input type="text" name="theater_id" value="${theater_id}">
+      <input type="hidden" name="play_pseq" value="${play_pseq}">
+      <input type="hidden" name="theater_id" value="${theater_id}">
         <div class="mb-3" style="width: 18rem; margin: 1rem;">
           <label for="formFile" class="form-label" style="margin: 0rem 1rem 1rem 0rem">공연 상세이미지 1</label>
           <input class="form-control" type="file" id="formFile" name="upload_image1">

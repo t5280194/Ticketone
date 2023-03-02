@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ezen.biz.dto.AdminVO;
 import com.ezen.biz.dto.PlayVO;
 import com.ezen.biz.dto.ScheduleVO;
 import com.ezen.biz.dto.TheaterVO;
@@ -16,6 +17,12 @@ public class AdminDAO {
 
 	@Autowired
 	private SqlSessionTemplate mybatis;
+	
+	// 관리자 로그인 정보
+	public AdminVO getAdmin(String aid) {
+		
+		return mybatis.selectOne("userMapper.getAdmin", aid);
+	}
 	
 	// 예매현황 보기
 	public List<TicketVO> listTicket(TicketVO vo) {

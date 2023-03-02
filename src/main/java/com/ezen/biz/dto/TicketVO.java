@@ -13,7 +13,7 @@ public class TicketVO {
 	private int tseq;
 	private int play_pseq;
 	private String play_name;
-	private String ticket_id;	//티켓 예매번호(T+공연장+공연일시+좌석번호)(T12301201900H23)
+	private String ticket_id;	//티켓 예매번호(T+공연장+공연일시+좌석등급+좌석번호)(T12301201900VIPA15)
     private String user_id;
     private String user_name;
     private Date buy_date;
@@ -27,6 +27,8 @@ public class TicketVO {
     // 예매현황 확인 위한 객체
     private String ticketSearchCondition;
     private String ticketSearchKeyword;
-    
+    private String play_poster;	//예매 상세확인 띄우기에 사용
+    private String theater_name;//예매 상세확인 띄우기에 사용
+    private Date play_schedule;	//예매 상세확인 띄우기에 사용
     
 }

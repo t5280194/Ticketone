@@ -19,6 +19,7 @@ public class QnaVO {
 	private String answer_content;
 	private Date answer_indate;
 	private int qna_check;	// 0 = 답변대기, 1 = 답변완료
+	// qna 검색조건, 검색키워드
 	private String qnaSearchCondition;
 	private String qnaSearchKeyword;
 }
